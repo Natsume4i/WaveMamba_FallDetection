@@ -1,0 +1,3804 @@
+{
+  "config": {
+    "data_root": "/mnt/F/natsume/enetfall/data",
+    "train_envs": [
+      "dataset_meeting_room.mat",
+      "dataset_home_lab(L).mat",
+      "dataset_home_lab(R).mat"
+    ],
+    "test_living_room": "dataset_living_room.mat",
+    "test_lecture_room": "dataset_lecture_room.mat",
+    "batch_size": 32,
+    "epochs": 120,
+    "lr": 0.001,
+    "warmup_epochs": 5,
+    "weight_decay": 0.01,
+    "val_ratio": 0.2,
+    "seeds": [
+      42,
+      123,
+      2024,
+      3407,
+      777
+    ],
+    "models": [
+      "wavemamba_default",
+      "wavemamba_interp_1x1",
+      "resnet18",
+      "lstm"
+    ],
+    "use_ema": false,
+    "ema_decay": null,
+    "best_checkpoint_criterion": "raw_val_macro_f1",
+    "final_eval_checkpoint_type": "raw_best",
+    "final_report_metrics": [
+      "test_train_env_macro_f1",
+      "test_train_env_accuracy",
+      "test_living_room_macro_f1",
+      "test_living_room_accuracy",
+      "test_lecture_room_macro_f1",
+      "test_lecture_room_accuracy",
+      "test_train_env_fall_recall",
+      "test_train_env_nonfall_recall",
+      "test_living_room_fall_recall",
+      "test_living_room_nonfall_recall",
+      "test_lecture_room_fall_recall",
+      "test_lecture_room_nonfall_recall"
+    ],
+    "model_files": {
+      "wavemamba": "wavemamba.py",
+      "baselines": "baseline_models.py"
+    }
+  },
+  "dataset_summary": {
+    "train": {
+      "name": "train",
+      "num_samples": 243,
+      "num_classes": 2
+    },
+    "val": {
+      "name": "val",
+      "num_samples": 61,
+      "num_classes": 2
+    },
+    "test_living_room": {
+      "name": "test_living_room",
+      "num_samples": 248,
+      "num_classes": 2
+    },
+    "test_lecture_room": {
+      "name": "test_lecture_room",
+      "num_samples": 205,
+      "num_classes": 2
+    },
+    "env_stats": {
+      "dataset_meeting_room.mat": {
+        "total": 134,
+        "fall": 58,
+        "nonfall": 76,
+        "train": 107,
+        "val": 27
+      },
+      "dataset_home_lab(L).mat": {
+        "total": 85,
+        "fall": 40,
+        "nonfall": 45,
+        "train": 68,
+        "val": 17
+      },
+      "dataset_home_lab(R).mat": {
+        "total": 85,
+        "fall": 36,
+        "nonfall": 49,
+        "train": 68,
+        "val": 17
+      }
+    }
+  },
+  "models": {
+    "wavemamba_default": {
+      "model_config": {
+        "type": "wavemamba",
+        "num_classes": 2,
+        "in_chans": 1,
+        "depths": [
+          1,
+          1
+        ],
+        "dims": [
+          32,
+          64
+        ],
+        "patch_size": 2,
+        "stage1_main_channels": 32,
+        "stage1_aux_channels": 32,
+        "stage2_main_channels": 64,
+        "stage2_aux_channels": 64,
+        "use_stem_se": true,
+        "use_block_se": false,
+        "use_main_proj_bn": true,
+        "use_aux_proj_bn": true,
+        "use_fusion_proj_bn": true,
+        "use_upsample_bn": true,
+        "use_wavelet": true,
+        "branch_mode": "dual",
+        "recon_type": "deconv",
+        "aux_variant": "mkconv"
+      },
+      "per_seed": [
+        {
+          "model_name": "wavemamba_default",
+          "seed": 42,
+          "params_M_total": 0.196738,
+          "params_M_trainable": 0.196738,
+          "best_epoch": 46,
+          "best_val_macro_f1": 1.0,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/wavemamba_default_seed42_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 1.0,
+          "test_train_env_macro_f1": 1.0,
+          "test_train_env_fall_recall": 1.0,
+          "test_train_env_nonfall_recall": 1.0,
+          "test_train_env_confusion_matrix": [
+            [
+              34,
+              0
+            ],
+            [
+              0,
+              27
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 27.0
+            },
+            "accuracy": 1.0,
+            "macro avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     1.0000    1.0000    1.0000        34\n        Fall     1.0000    1.0000    1.0000        27\n\n    accuracy                         1.0000        61\n   macro avg     1.0000    1.0000    1.0000        61\nweighted avg     1.0000    1.0000    1.0000        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.7701612903225806,
+          "test_living_room_macro_f1": 0.7690762068120559,
+          "test_living_room_fall_recall": 0.9560439560439561,
+          "test_living_room_nonfall_recall": 0.6624203821656051,
+          "test_living_room_confusion_matrix": [
+            [
+              104,
+              53
+            ],
+            [
+              4,
+              87
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.9629629629629629,
+              "recall": 0.6624203821656051,
+              "f1-score": 0.7849056603773585,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.6214285714285714,
+              "recall": 0.9560439560439561,
+              "f1-score": 0.7532467532467533,
+              "support": 91.0
+            },
+            "accuracy": 0.7701612903225806,
+            "macro avg": {
+              "precision": 0.7921957671957671,
+              "recall": 0.8092321691047806,
+              "f1-score": 0.7690762068120559,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.8376418757467146,
+              "recall": 0.7701612903225806,
+              "f1-score": 0.7732888839705638,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9630    0.6624    0.7849       157\n        Fall     0.6214    0.9560    0.7532        91\n\n    accuracy                         0.7702       248\n   macro avg     0.7922    0.8092    0.7691       248\nweighted avg     0.8376    0.7702    0.7733       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.9512195121951219,
+          "test_lecture_room_macro_f1": 0.9507021931512121,
+          "test_lecture_room_fall_recall": 0.90625,
+          "test_lecture_room_nonfall_recall": 0.9908256880733946,
+          "test_lecture_room_confusion_matrix": [
+            [
+              108,
+              1
+            ],
+            [
+              9,
+              87
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.9230769230769231,
+              "recall": 0.9908256880733946,
+              "f1-score": 0.9557522123893806,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 0.9886363636363636,
+              "recall": 0.90625,
+              "f1-score": 0.9456521739130435,
+              "support": 96.0
+            },
+            "accuracy": 0.9512195121951219,
+            "macro avg": {
+              "precision": 0.9558566433566433,
+              "recall": 0.9485378440366973,
+              "f1-score": 0.9507021931512121,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.9537779293876855,
+              "recall": 0.9512195121951219,
+              "f1-score": 0.9510224382736324,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9231    0.9908    0.9558       109\n        Fall     0.9886    0.9062    0.9457        96\n\n    accuracy                         0.9512       205\n   macro avg     0.9559    0.9485    0.9507       205\nweighted avg     0.9538    0.9512    0.9510       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        },
+        {
+          "model_name": "wavemamba_default",
+          "seed": 123,
+          "params_M_total": 0.196738,
+          "params_M_trainable": 0.196738,
+          "best_epoch": 35,
+          "best_val_macro_f1": 1.0,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/wavemamba_default_seed123_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 1.0,
+          "test_train_env_macro_f1": 1.0,
+          "test_train_env_fall_recall": 1.0,
+          "test_train_env_nonfall_recall": 1.0,
+          "test_train_env_confusion_matrix": [
+            [
+              34,
+              0
+            ],
+            [
+              0,
+              27
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 27.0
+            },
+            "accuracy": 1.0,
+            "macro avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     1.0000    1.0000    1.0000        34\n        Fall     1.0000    1.0000    1.0000        27\n\n    accuracy                         1.0000        61\n   macro avg     1.0000    1.0000    1.0000        61\nweighted avg     1.0000    1.0000    1.0000        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.7903225806451613,
+          "test_living_room_macro_f1": 0.7883403361344539,
+          "test_living_room_fall_recall": 0.945054945054945,
+          "test_living_room_nonfall_recall": 0.7006369426751592,
+          "test_living_room_confusion_matrix": [
+            [
+              110,
+              47
+            ],
+            [
+              5,
+              86
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.9565217391304348,
+              "recall": 0.7006369426751592,
+              "f1-score": 0.8088235294117647,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.6466165413533834,
+              "recall": 0.945054945054945,
+              "f1-score": 0.7678571428571429,
+              "support": 91.0
+            },
+            "accuracy": 0.7903225806451613,
+            "macro avg": {
+              "precision": 0.8015691402419092,
+              "recall": 0.8228459438650522,
+              "f1-score": 0.7883403361344539,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.8428065254299846,
+              "recall": 0.7903225806451613,
+              "f1-score": 0.7937915085388995,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9565    0.7006    0.8088       157\n        Fall     0.6466    0.9451    0.7679        91\n\n    accuracy                         0.7903       248\n   macro avg     0.8016    0.8228    0.7883       248\nweighted avg     0.8428    0.7903    0.7938       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.9024390243902439,
+          "test_lecture_room_macro_f1": 0.9004467754467754,
+          "test_lecture_room_fall_recall": 0.8125,
+          "test_lecture_room_nonfall_recall": 0.981651376146789,
+          "test_lecture_room_confusion_matrix": [
+            [
+              107,
+              2
+            ],
+            [
+              18,
+              78
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.856,
+              "recall": 0.981651376146789,
+              "f1-score": 0.9145299145299145,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 0.975,
+              "recall": 0.8125,
+              "f1-score": 0.8863636363636364,
+              "support": 96.0
+            },
+            "accuracy": 0.9024390243902439,
+            "macro avg": {
+              "precision": 0.9155,
+              "recall": 0.8970756880733946,
+              "f1-score": 0.9004467754467754,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.9117268292682926,
+              "recall": 0.9024390243902439,
+              "f1-score": 0.9013398525593648,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.8560    0.9817    0.9145       109\n        Fall     0.9750    0.8125    0.8864        96\n\n    accuracy                         0.9024       205\n   macro avg     0.9155    0.8971    0.9004       205\nweighted avg     0.9117    0.9024    0.9013       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        },
+        {
+          "model_name": "wavemamba_default",
+          "seed": 2024,
+          "params_M_total": 0.196738,
+          "params_M_trainable": 0.196738,
+          "best_epoch": 80,
+          "best_val_macro_f1": 0.9834464043419266,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/wavemamba_default_seed2024_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 0.9836065573770492,
+          "test_train_env_macro_f1": 0.9834464043419266,
+          "test_train_env_fall_recall": 1.0,
+          "test_train_env_nonfall_recall": 0.9705882352941176,
+          "test_train_env_confusion_matrix": [
+            [
+              33,
+              1
+            ],
+            [
+              0,
+              27
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 1.0,
+              "recall": 0.9705882352941176,
+              "f1-score": 0.9850746268656716,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 0.9642857142857143,
+              "recall": 1.0,
+              "f1-score": 0.9818181818181818,
+              "support": 27.0
+            },
+            "accuracy": 0.9836065573770492,
+            "macro avg": {
+              "precision": 0.9821428571428572,
+              "recall": 0.9852941176470589,
+              "f1-score": 0.9834464043419266,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 0.984192037470726,
+              "recall": 0.9836065573770492,
+              "f1-score": 0.9836332495495695,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     1.0000    0.9706    0.9851        34\n        Fall     0.9643    1.0000    0.9818        27\n\n    accuracy                         0.9836        61\n   macro avg     0.9821    0.9853    0.9834        61\nweighted avg     0.9842    0.9836    0.9836        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.8064516129032258,
+          "test_living_room_macro_f1": 0.8049164208456243,
+          "test_living_room_fall_recall": 0.978021978021978,
+          "test_living_room_nonfall_recall": 0.7070063694267515,
+          "test_living_room_confusion_matrix": [
+            [
+              111,
+              46
+            ],
+            [
+              2,
+              89
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.9823008849557522,
+              "recall": 0.7070063694267515,
+              "f1-score": 0.8222222222222222,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.6592592592592592,
+              "recall": 0.978021978021978,
+              "f1-score": 0.7876106194690266,
+              "support": 91.0
+            },
+            "accuracy": 0.8064516129032258,
+            "macro avg": {
+              "precision": 0.8207800721075057,
+              "recall": 0.8425141737243648,
+              "f1-score": 0.8049164208456243,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.8637654497203455,
+              "recall": 0.8064516129032258,
+              "f1-score": 0.8095219970184286,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9823    0.7070    0.8222       157\n        Fall     0.6593    0.9780    0.7876        91\n\n    accuracy                         0.8065       248\n   macro avg     0.8208    0.8425    0.8049       248\nweighted avg     0.8638    0.8065    0.8095       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.9560975609756097,
+          "test_lecture_room_macro_f1": 0.9558284852402499,
+          "test_lecture_room_fall_recall": 0.9375,
+          "test_lecture_room_nonfall_recall": 0.9724770642201835,
+          "test_lecture_room_confusion_matrix": [
+            [
+              106,
+              3
+            ],
+            [
+              6,
+              90
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.9464285714285714,
+              "recall": 0.9724770642201835,
+              "f1-score": 0.9592760180995475,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 0.967741935483871,
+              "recall": 0.9375,
+              "f1-score": 0.9523809523809523,
+              "support": 96.0
+            },
+            "accuracy": 0.9560975609756097,
+            "macro avg": {
+              "precision": 0.9570852534562212,
+              "recall": 0.9549885321100917,
+              "f1-score": 0.9558284852402499,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.9564094638642239,
+              "recall": 0.9560975609756097,
+              "f1-score": 0.9560471092752298,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9464    0.9725    0.9593       109\n        Fall     0.9677    0.9375    0.9524        96\n\n    accuracy                         0.9561       205\n   macro avg     0.9571    0.9550    0.9558       205\nweighted avg     0.9564    0.9561    0.9560       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        },
+        {
+          "model_name": "wavemamba_default",
+          "seed": 3407,
+          "params_M_total": 0.196738,
+          "params_M_trainable": 0.196738,
+          "best_epoch": 22,
+          "best_val_macro_f1": 1.0,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/wavemamba_default_seed3407_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 1.0,
+          "test_train_env_macro_f1": 1.0,
+          "test_train_env_fall_recall": 1.0,
+          "test_train_env_nonfall_recall": 1.0,
+          "test_train_env_confusion_matrix": [
+            [
+              34,
+              0
+            ],
+            [
+              0,
+              27
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 27.0
+            },
+            "accuracy": 1.0,
+            "macro avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     1.0000    1.0000    1.0000        34\n        Fall     1.0000    1.0000    1.0000        27\n\n    accuracy                         1.0000        61\n   macro avg     1.0000    1.0000    1.0000        61\nweighted avg     1.0000    1.0000    1.0000        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.8306451612903226,
+          "test_living_room_macro_f1": 0.8274010737721217,
+          "test_living_room_fall_recall": 0.945054945054945,
+          "test_living_room_nonfall_recall": 0.7643312101910829,
+          "test_living_room_confusion_matrix": [
+            [
+              120,
+              37
+            ],
+            [
+              5,
+              86
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.96,
+              "recall": 0.7643312101910829,
+              "f1-score": 0.851063829787234,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.6991869918699187,
+              "recall": 0.945054945054945,
+              "f1-score": 0.8037383177570093,
+              "support": 91.0
+            },
+            "accuracy": 0.8306451612903226,
+            "macro avg": {
+              "precision": 0.8295934959349593,
+              "recall": 0.8546930776230139,
+              "f1-score": 0.8274010737721217,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.8642984526619459,
+              "recall": 0.8306451612903226,
+              "f1-score": 0.8336984201309823,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9600    0.7643    0.8511       157\n        Fall     0.6992    0.9451    0.8037        91\n\n    accuracy                         0.8306       248\n   macro avg     0.8296    0.8547    0.8274       248\nweighted avg     0.8643    0.8306    0.8337       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.9804878048780488,
+          "test_lecture_room_macro_f1": 0.9804090214067278,
+          "test_lecture_room_fall_recall": 0.9791666666666666,
+          "test_lecture_room_nonfall_recall": 0.981651376146789,
+          "test_lecture_room_confusion_matrix": [
+            [
+              107,
+              2
+            ],
+            [
+              2,
+              94
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.981651376146789,
+              "recall": 0.981651376146789,
+              "f1-score": 0.981651376146789,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 0.9791666666666666,
+              "recall": 0.9791666666666666,
+              "f1-score": 0.9791666666666666,
+              "support": 96.0
+            },
+            "accuracy": 0.9804878048780488,
+            "macro avg": {
+              "precision": 0.9804090214067278,
+              "recall": 0.9804090214067278,
+              "f1-score": 0.9804090214067278,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.9804878048780488,
+              "recall": 0.9804878048780488,
+              "f1-score": 0.9804878048780488,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9817    0.9817    0.9817       109\n        Fall     0.9792    0.9792    0.9792        96\n\n    accuracy                         0.9805       205\n   macro avg     0.9804    0.9804    0.9804       205\nweighted avg     0.9805    0.9805    0.9805       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        },
+        {
+          "model_name": "wavemamba_default",
+          "seed": 777,
+          "params_M_total": 0.196738,
+          "params_M_trainable": 0.196738,
+          "best_epoch": 120,
+          "best_val_macro_f1": 0.9834464043419266,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/wavemamba_default_seed777_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 0.9836065573770492,
+          "test_train_env_macro_f1": 0.9834464043419266,
+          "test_train_env_fall_recall": 1.0,
+          "test_train_env_nonfall_recall": 0.9705882352941176,
+          "test_train_env_confusion_matrix": [
+            [
+              33,
+              1
+            ],
+            [
+              0,
+              27
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 1.0,
+              "recall": 0.9705882352941176,
+              "f1-score": 0.9850746268656716,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 0.9642857142857143,
+              "recall": 1.0,
+              "f1-score": 0.9818181818181818,
+              "support": 27.0
+            },
+            "accuracy": 0.9836065573770492,
+            "macro avg": {
+              "precision": 0.9821428571428572,
+              "recall": 0.9852941176470589,
+              "f1-score": 0.9834464043419266,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 0.984192037470726,
+              "recall": 0.9836065573770492,
+              "f1-score": 0.9836332495495695,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     1.0000    0.9706    0.9851        34\n        Fall     0.9643    1.0000    0.9818        27\n\n    accuracy                         0.9836        61\n   macro avg     0.9821    0.9853    0.9834        61\nweighted avg     0.9842    0.9836    0.9836        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.9193548387096774,
+          "test_living_room_macro_f1": 0.9159379025150838,
+          "test_living_room_fall_recall": 0.978021978021978,
+          "test_living_room_nonfall_recall": 0.8853503184713376,
+          "test_living_room_confusion_matrix": [
+            [
+              139,
+              18
+            ],
+            [
+              2,
+              89
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.9858156028368794,
+              "recall": 0.8853503184713376,
+              "f1-score": 0.9328859060402684,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.8317757009345794,
+              "recall": 0.978021978021978,
+              "f1-score": 0.898989898989899,
+              "support": 91.0
+            },
+            "accuracy": 0.9193548387096774,
+            "macro avg": {
+              "precision": 0.9087956518857294,
+              "recall": 0.9316861482466579,
+              "f1-score": 0.9159379025150838,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.9292928968969226,
+              "recall": 0.9193548387096774,
+              "f1-score": 0.9204482582919474,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9858    0.8854    0.9329       157\n        Fall     0.8318    0.9780    0.8990        91\n\n    accuracy                         0.9194       248\n   macro avg     0.9088    0.9317    0.9159       248\nweighted avg     0.9293    0.9194    0.9204       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.9609756097560975,
+          "test_lecture_room_macro_f1": 0.9608629247804505,
+          "test_lecture_room_fall_recall": 0.96875,
+          "test_lecture_room_nonfall_recall": 0.9541284403669725,
+          "test_lecture_room_confusion_matrix": [
+            [
+              104,
+              5
+            ],
+            [
+              3,
+              93
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.9719626168224299,
+              "recall": 0.9541284403669725,
+              "f1-score": 0.9629629629629629,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 0.9489795918367347,
+              "recall": 0.96875,
+              "f1-score": 0.9587628865979382,
+              "support": 96.0
+            },
+            "accuracy": 0.9609756097560975,
+            "macro avg": {
+              "precision": 0.9604711043295824,
+              "recall": 0.9614392201834863,
+              "f1-score": 0.9608629247804505,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.9611998343901045,
+              "recall": 0.9609756097560975,
+              "f1-score": 0.9609960979334878,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9720    0.9541    0.9630       109\n        Fall     0.9490    0.9688    0.9588        96\n\n    accuracy                         0.9610       205\n   macro avg     0.9605    0.9614    0.9609       205\nweighted avg     0.9612    0.9610    0.9610       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        }
+      ],
+      "aggregate": {
+        "seed_mean": 1274.6,
+        "seed_std": 1280.7670514187973,
+        "params_M_total_mean": 0.196738,
+        "params_M_total_std": 0.0,
+        "params_M_trainable_mean": 0.196738,
+        "params_M_trainable_std": 0.0,
+        "best_epoch_mean": 60.6,
+        "best_epoch_std": 35.39265460515784,
+        "best_val_macro_f1_mean": 0.9933785617367706,
+        "best_val_macro_f1_std": 0.008109572554126164,
+        "use_ema_mean": 0.0,
+        "use_ema_std": 0.0,
+        "test_train_env_accuracy_mean": 0.9934426229508196,
+        "test_train_env_accuracy_std": 0.008031113910764527,
+        "test_train_env_macro_f1_mean": 0.9933785617367706,
+        "test_train_env_macro_f1_std": 0.008109572554126164,
+        "test_train_env_fall_recall_mean": 1.0,
+        "test_train_env_fall_recall_std": 0.0,
+        "test_train_env_nonfall_recall_mean": 0.9882352941176471,
+        "test_train_env_nonfall_recall_std": 0.014408763192842228,
+        "test_living_room_accuracy_mean": 0.8233870967741935,
+        "test_living_room_accuracy_std": 0.05191444174010026,
+        "test_living_room_macro_f1_mean": 0.8211343880158679,
+        "test_living_room_macro_f1_std": 0.0511380567482879,
+        "test_living_room_fall_recall_mean": 0.9604395604395605,
+        "test_living_room_fall_recall_std": 0.01490621974313245,
+        "test_living_room_nonfall_recall_mean": 0.7439490445859872,
+        "test_living_room_nonfall_recall_std": 0.07784262989784557,
+        "test_lecture_room_accuracy_mean": 0.9502439024390243,
+        "test_lecture_room_accuracy_std": 0.025885852022286028,
+        "test_lecture_room_macro_f1_mean": 0.9496498800050831,
+        "test_lecture_room_macro_f1_std": 0.026578507018589558,
+        "test_lecture_room_fall_recall_mean": 0.9208333333333333,
+        "test_lecture_room_fall_recall_std": 0.05987544942999964,
+        "test_lecture_room_nonfall_recall_mean": 0.9761467889908257,
+        "test_lecture_room_nonfall_recall_std": 0.012444642170872043
+      }
+    },
+    "wavemamba_interp_1x1": {
+      "model_config": {
+        "type": "wavemamba",
+        "num_classes": 2,
+        "in_chans": 1,
+        "depths": [
+          1,
+          1
+        ],
+        "dims": [
+          32,
+          64
+        ],
+        "patch_size": 2,
+        "stage1_main_channels": 32,
+        "stage1_aux_channels": 32,
+        "stage2_main_channels": 64,
+        "stage2_aux_channels": 64,
+        "use_stem_se": true,
+        "use_block_se": false,
+        "use_main_proj_bn": true,
+        "use_aux_proj_bn": true,
+        "use_fusion_proj_bn": true,
+        "use_upsample_bn": true,
+        "use_wavelet": true,
+        "branch_mode": "dual",
+        "recon_type": "interp_1x1",
+        "aux_variant": "mkconv"
+      },
+      "per_seed": [
+        {
+          "model_name": "wavemamba_interp_1x1",
+          "seed": 42,
+          "params_M_total": 0.165922,
+          "params_M_trainable": 0.165922,
+          "best_epoch": 58,
+          "best_val_macro_f1": 1.0,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/wavemamba_interp_1x1_seed42_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 1.0,
+          "test_train_env_macro_f1": 1.0,
+          "test_train_env_fall_recall": 1.0,
+          "test_train_env_nonfall_recall": 1.0,
+          "test_train_env_confusion_matrix": [
+            [
+              34,
+              0
+            ],
+            [
+              0,
+              27
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 27.0
+            },
+            "accuracy": 1.0,
+            "macro avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     1.0000    1.0000    1.0000        34\n        Fall     1.0000    1.0000    1.0000        27\n\n    accuracy                         1.0000        61\n   macro avg     1.0000    1.0000    1.0000        61\nweighted avg     1.0000    1.0000    1.0000        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.657258064516129,
+          "test_living_room_macro_f1": 0.6563136871280673,
+          "test_living_room_fall_recall": 0.967032967032967,
+          "test_living_room_nonfall_recall": 0.47770700636942676,
+          "test_living_room_confusion_matrix": [
+            [
+              75,
+              82
+            ],
+            [
+              3,
+              88
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.9615384615384616,
+              "recall": 0.47770700636942676,
+              "f1-score": 0.6382978723404256,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.5176470588235295,
+              "recall": 0.967032967032967,
+              "f1-score": 0.6743295019157088,
+              "support": 91.0
+            },
+            "accuracy": 0.657258064516129,
+            "macro avg": {
+              "precision": 0.7395927601809955,
+              "recall": 0.7223699867011969,
+              "f1-score": 0.6563136871280673,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.7986589548970954,
+              "recall": 0.657258064516129,
+              "f1-score": 0.6515191557732917,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9615    0.4777    0.6383       157\n        Fall     0.5176    0.9670    0.6743        91\n\n    accuracy                         0.6573       248\n   macro avg     0.7396    0.7224    0.6563       248\nweighted avg     0.7987    0.6573    0.6515       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.9024390243902439,
+          "test_lecture_room_macro_f1": 0.9023251381741948,
+          "test_lecture_room_fall_recall": 1.0,
+          "test_lecture_room_nonfall_recall": 0.8165137614678899,
+          "test_lecture_room_confusion_matrix": [
+            [
+              89,
+              20
+            ],
+            [
+              0,
+              96
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 1.0,
+              "recall": 0.8165137614678899,
+              "f1-score": 0.898989898989899,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 0.8275862068965517,
+              "recall": 1.0,
+              "f1-score": 0.9056603773584906,
+              "support": 96.0
+            },
+            "accuracy": 0.9024390243902439,
+            "macro avg": {
+              "precision": 0.9137931034482758,
+              "recall": 0.908256880733945,
+              "f1-score": 0.9023251381741948,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.9192598822539949,
+              "recall": 0.9024390243902439,
+              "f1-score": 0.9021136352015322,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     1.0000    0.8165    0.8990       109\n        Fall     0.8276    1.0000    0.9057        96\n\n    accuracy                         0.9024       205\n   macro avg     0.9138    0.9083    0.9023       205\nweighted avg     0.9193    0.9024    0.9021       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        },
+        {
+          "model_name": "wavemamba_interp_1x1",
+          "seed": 123,
+          "params_M_total": 0.165922,
+          "params_M_trainable": 0.165922,
+          "best_epoch": 21,
+          "best_val_macro_f1": 1.0,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/wavemamba_interp_1x1_seed123_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 1.0,
+          "test_train_env_macro_f1": 1.0,
+          "test_train_env_fall_recall": 1.0,
+          "test_train_env_nonfall_recall": 1.0,
+          "test_train_env_confusion_matrix": [
+            [
+              34,
+              0
+            ],
+            [
+              0,
+              27
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 27.0
+            },
+            "accuracy": 1.0,
+            "macro avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     1.0000    1.0000    1.0000        34\n        Fall     1.0000    1.0000    1.0000        27\n\n    accuracy                         1.0000        61\n   macro avg     1.0000    1.0000    1.0000        61\nweighted avg     1.0000    1.0000    1.0000        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.7862903225806451,
+          "test_living_room_macro_f1": 0.7847469007418568,
+          "test_living_room_fall_recall": 0.9560439560439561,
+          "test_living_room_nonfall_recall": 0.6878980891719745,
+          "test_living_room_confusion_matrix": [
+            [
+              108,
+              49
+            ],
+            [
+              4,
+              87
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.9642857142857143,
+              "recall": 0.6878980891719745,
+              "f1-score": 0.8029739776951673,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.6397058823529411,
+              "recall": 0.9560439560439561,
+              "f1-score": 0.7665198237885462,
+              "support": 91.0
+            },
+            "accuracy": 0.7862903225806451,
+            "macro avg": {
+              "precision": 0.8019957983193278,
+              "recall": 0.8219710226079653,
+              "f1-score": 0.7847469007418568,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.8451858566007048,
+              "recall": 0.7862903225806451,
+              "f1-score": 0.7895976550923346,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9643    0.6879    0.8030       157\n        Fall     0.6397    0.9560    0.7665        91\n\n    accuracy                         0.7863       248\n   macro avg     0.8020    0.8220    0.7847       248\nweighted avg     0.8452    0.7863    0.7896       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.926829268292683,
+          "test_lecture_room_macro_f1": 0.9256330261916854,
+          "test_lecture_room_fall_recall": 0.8541666666666666,
+          "test_lecture_room_nonfall_recall": 0.9908256880733946,
+          "test_lecture_room_confusion_matrix": [
+            [
+              108,
+              1
+            ],
+            [
+              14,
+              82
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.8852459016393442,
+              "recall": 0.9908256880733946,
+              "f1-score": 0.935064935064935,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 0.9879518072289156,
+              "recall": 0.8541666666666666,
+              "f1-score": 0.9162011173184358,
+              "support": 96.0
+            },
+            "accuracy": 0.926829268292683,
+            "macro avg": {
+              "precision": 0.9365988544341299,
+              "recall": 0.9224961773700306,
+              "f1-score": 0.9256330261916854,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.9333423257203143,
+              "recall": 0.926829268292683,
+              "f1-score": 0.9262311472421841,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.8852    0.9908    0.9351       109\n        Fall     0.9880    0.8542    0.9162        96\n\n    accuracy                         0.9268       205\n   macro avg     0.9366    0.9225    0.9256       205\nweighted avg     0.9333    0.9268    0.9262       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        },
+        {
+          "model_name": "wavemamba_interp_1x1",
+          "seed": 2024,
+          "params_M_total": 0.165922,
+          "params_M_trainable": 0.165922,
+          "best_epoch": 58,
+          "best_val_macro_f1": 0.9834464043419266,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/wavemamba_interp_1x1_seed2024_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 0.9836065573770492,
+          "test_train_env_macro_f1": 0.9834464043419266,
+          "test_train_env_fall_recall": 1.0,
+          "test_train_env_nonfall_recall": 0.9705882352941176,
+          "test_train_env_confusion_matrix": [
+            [
+              33,
+              1
+            ],
+            [
+              0,
+              27
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 1.0,
+              "recall": 0.9705882352941176,
+              "f1-score": 0.9850746268656716,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 0.9642857142857143,
+              "recall": 1.0,
+              "f1-score": 0.9818181818181818,
+              "support": 27.0
+            },
+            "accuracy": 0.9836065573770492,
+            "macro avg": {
+              "precision": 0.9821428571428572,
+              "recall": 0.9852941176470589,
+              "f1-score": 0.9834464043419266,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 0.984192037470726,
+              "recall": 0.9836065573770492,
+              "f1-score": 0.9836332495495695,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     1.0000    0.9706    0.9851        34\n        Fall     0.9643    1.0000    0.9818        27\n\n    accuracy                         0.9836        61\n   macro avg     0.9821    0.9853    0.9834        61\nweighted avg     0.9842    0.9836    0.9836        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.9153225806451613,
+          "test_living_room_macro_f1": 0.9090766249410779,
+          "test_living_room_fall_recall": 0.8901098901098901,
+          "test_living_room_nonfall_recall": 0.9299363057324841,
+          "test_living_room_confusion_matrix": [
+            [
+              146,
+              11
+            ],
+            [
+              10,
+              81
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.9358974358974359,
+              "recall": 0.9299363057324841,
+              "f1-score": 0.9329073482428115,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.8804347826086957,
+              "recall": 0.8901098901098901,
+              "f1-score": 0.8852459016393442,
+              "support": 91.0
+            },
+            "accuracy": 0.9153225806451613,
+            "macro avg": {
+              "precision": 0.9081661092530657,
+              "recall": 0.9100230979211871,
+              "f1-score": 0.9090766249410779,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.9155462203761643,
+              "recall": 0.9153225806451613,
+              "f1-score": 0.915418672271378,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9359    0.9299    0.9329       157\n        Fall     0.8804    0.8901    0.8852        91\n\n    accuracy                         0.9153       248\n   macro avg     0.9082    0.9100    0.9091       248\nweighted avg     0.9155    0.9153    0.9154       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.8975609756097561,
+          "test_lecture_room_macro_f1": 0.8946634368347648,
+          "test_lecture_room_fall_recall": 0.78125,
+          "test_lecture_room_nonfall_recall": 1.0,
+          "test_lecture_room_confusion_matrix": [
+            [
+              109,
+              0
+            ],
+            [
+              21,
+              75
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.8384615384615385,
+              "recall": 1.0,
+              "f1-score": 0.9121338912133892,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 1.0,
+              "recall": 0.78125,
+              "f1-score": 0.8771929824561403,
+              "support": 96.0
+            },
+            "accuracy": 0.8975609756097561,
+            "macro avg": {
+              "precision": 0.9192307692307693,
+              "recall": 0.890625,
+              "f1-score": 0.8946634368347648,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.9141088180112571,
+              "recall": 0.8975609756097561,
+              "f1-score": 0.8957713193075556,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.8385    1.0000    0.9121       109\n        Fall     1.0000    0.7812    0.8772        96\n\n    accuracy                         0.8976       205\n   macro avg     0.9192    0.8906    0.8947       205\nweighted avg     0.9141    0.8976    0.8958       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        },
+        {
+          "model_name": "wavemamba_interp_1x1",
+          "seed": 3407,
+          "params_M_total": 0.165922,
+          "params_M_trainable": 0.165922,
+          "best_epoch": 21,
+          "best_val_macro_f1": 1.0,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/wavemamba_interp_1x1_seed3407_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 1.0,
+          "test_train_env_macro_f1": 1.0,
+          "test_train_env_fall_recall": 1.0,
+          "test_train_env_nonfall_recall": 1.0,
+          "test_train_env_confusion_matrix": [
+            [
+              34,
+              0
+            ],
+            [
+              0,
+              27
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 27.0
+            },
+            "accuracy": 1.0,
+            "macro avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     1.0000    1.0000    1.0000        34\n        Fall     1.0000    1.0000    1.0000        27\n\n    accuracy                         1.0000        61\n   macro avg     1.0000    1.0000    1.0000        61\nweighted avg     1.0000    1.0000    1.0000        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.7580645161290323,
+          "test_living_room_macro_f1": 0.7564807541241163,
+          "test_living_room_fall_recall": 0.9230769230769231,
+          "test_living_room_nonfall_recall": 0.6624203821656051,
+          "test_living_room_confusion_matrix": [
+            [
+              104,
+              53
+            ],
+            [
+              7,
+              84
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.9369369369369369,
+              "recall": 0.6624203821656051,
+              "f1-score": 0.7761194029850746,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.6131386861313869,
+              "recall": 0.9230769230769231,
+              "f1-score": 0.7368421052631579,
+              "support": 91.0
+            },
+            "accuracy": 0.7580645161290323,
+            "macro avg": {
+              "precision": 0.7750378115341618,
+              "recall": 0.7927486526212641,
+              "f1-score": 0.7564807541241163,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.8181238691010295,
+              "recall": 0.7580645161290323,
+              "f1-score": 0.7617071687403391,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9369    0.6624    0.7761       157\n        Fall     0.6131    0.9231    0.7368        91\n\n    accuracy                         0.7581       248\n   macro avg     0.7750    0.7927    0.7565       248\nweighted avg     0.8181    0.7581    0.7617       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.9317073170731708,
+          "test_lecture_room_macro_f1": 0.9305017435102674,
+          "test_lecture_room_fall_recall": 0.8541666666666666,
+          "test_lecture_room_nonfall_recall": 1.0,
+          "test_lecture_room_confusion_matrix": [
+            [
+              109,
+              0
+            ],
+            [
+              14,
+              82
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.8861788617886179,
+              "recall": 1.0,
+              "f1-score": 0.9396551724137931,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 1.0,
+              "recall": 0.8541666666666666,
+              "f1-score": 0.9213483146067416,
+              "support": 96.0
+            },
+            "accuracy": 0.9317073170731708,
+            "macro avg": {
+              "precision": 0.943089430894309,
+              "recall": 0.9270833333333333,
+              "f1-score": 0.9305017435102674,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.9394804679754115,
+              "recall": 0.9317073170731708,
+              "f1-score": 0.9310822048553691,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.8862    1.0000    0.9397       109\n        Fall     1.0000    0.8542    0.9213        96\n\n    accuracy                         0.9317       205\n   macro avg     0.9431    0.9271    0.9305       205\nweighted avg     0.9395    0.9317    0.9311       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        },
+        {
+          "model_name": "wavemamba_interp_1x1",
+          "seed": 777,
+          "params_M_total": 0.165922,
+          "params_M_trainable": 0.165922,
+          "best_epoch": 33,
+          "best_val_macro_f1": 1.0,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/wavemamba_interp_1x1_seed777_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 1.0,
+          "test_train_env_macro_f1": 1.0,
+          "test_train_env_fall_recall": 1.0,
+          "test_train_env_nonfall_recall": 1.0,
+          "test_train_env_confusion_matrix": [
+            [
+              34,
+              0
+            ],
+            [
+              0,
+              27
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 27.0
+            },
+            "accuracy": 1.0,
+            "macro avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     1.0000    1.0000    1.0000        34\n        Fall     1.0000    1.0000    1.0000        27\n\n    accuracy                         1.0000        61\n   macro avg     1.0000    1.0000    1.0000        61\nweighted avg     1.0000    1.0000    1.0000        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.7701612903225806,
+          "test_living_room_macro_f1": 0.7695280019564685,
+          "test_living_room_fall_recall": 0.978021978021978,
+          "test_living_room_nonfall_recall": 0.6496815286624203,
+          "test_living_room_confusion_matrix": [
+            [
+              102,
+              55
+            ],
+            [
+              2,
+              89
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.9807692307692307,
+              "recall": 0.6496815286624203,
+              "f1-score": 0.7816091954022989,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.6180555555555556,
+              "recall": 0.978021978021978,
+              "f1-score": 0.7574468085106383,
+              "support": 91.0
+            },
+            "accuracy": 0.7701612903225806,
+            "macro avg": {
+              "precision": 0.7994123931623931,
+              "recall": 0.8138517533421992,
+              "f1-score": 0.7695280019564685,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.8476767128480838,
+              "recall": 0.7701612903225806,
+              "f1-score": 0.7727431582767298,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9808    0.6497    0.7816       157\n        Fall     0.6181    0.9780    0.7574        91\n\n    accuracy                         0.7702       248\n   macro avg     0.7994    0.8139    0.7695       248\nweighted avg     0.8477    0.7702    0.7727       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.9463414634146341,
+          "test_lecture_room_macro_f1": 0.9458258258258259,
+          "test_lecture_room_fall_recall": 0.90625,
+          "test_lecture_room_nonfall_recall": 0.981651376146789,
+          "test_lecture_room_confusion_matrix": [
+            [
+              107,
+              2
+            ],
+            [
+              9,
+              87
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.9224137931034483,
+              "recall": 0.981651376146789,
+              "f1-score": 0.9511111111111111,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 0.9775280898876404,
+              "recall": 0.90625,
+              "f1-score": 0.9405405405405406,
+              "support": 96.0
+            },
+            "accuracy": 0.9463414634146341,
+            "macro avg": {
+              "precision": 0.9499709414955444,
+              "recall": 0.9439506880733946,
+              "f1-score": 0.9458258258258259,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.9482234150121431,
+              "recall": 0.9463414634146341,
+              "f1-score": 0.9461609902585512,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9224    0.9817    0.9511       109\n        Fall     0.9775    0.9062    0.9405        96\n\n    accuracy                         0.9463       205\n   macro avg     0.9500    0.9440    0.9458       205\nweighted avg     0.9482    0.9463    0.9462       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        }
+      ],
+      "aggregate": {
+        "seed_mean": 1274.6,
+        "seed_std": 1280.7670514187973,
+        "params_M_total_mean": 0.165922,
+        "params_M_total_std": 0.0,
+        "params_M_trainable_mean": 0.165922,
+        "params_M_trainable_std": 0.0,
+        "best_epoch_mean": 38.2,
+        "best_epoch_std": 16.749925372968082,
+        "best_val_macro_f1_mean": 0.9966892808683854,
+        "best_val_macro_f1_std": 0.00662143826322934,
+        "use_ema_mean": 0.0,
+        "use_ema_std": 0.0,
+        "test_train_env_accuracy_mean": 0.9967213114754099,
+        "test_train_env_accuracy_std": 0.006557377049180335,
+        "test_train_env_macro_f1_mean": 0.9966892808683854,
+        "test_train_env_macro_f1_std": 0.00662143826322934,
+        "test_train_env_fall_recall_mean": 1.0,
+        "test_train_env_fall_recall_std": 0.0,
+        "test_train_env_nonfall_recall_mean": 0.9941176470588236,
+        "test_train_env_nonfall_recall_std": 0.011764705882352944,
+        "test_living_room_accuracy_mean": 0.7774193548387096,
+        "test_living_room_accuracy_std": 0.0824160405873627,
+        "test_living_room_macro_f1_mean": 0.7752291937783173,
+        "test_living_room_macro_f1_std": 0.08066055649976156,
+        "test_living_room_fall_recall_mean": 0.9428571428571428,
+        "test_living_room_fall_recall_std": 0.0321510743699512,
+        "test_living_room_nonfall_recall_mean": 0.6815286624203821,
+        "test_living_room_nonfall_recall_std": 0.14468556295032545,
+        "test_lecture_room_accuracy_mean": 0.9209756097560976,
+        "test_lecture_room_accuracy_std": 0.018355988021684647,
+        "test_lecture_room_macro_f1_mean": 0.9197898341073476,
+        "test_lecture_room_macro_f1_std": 0.018778243823598835,
+        "test_lecture_room_fall_recall_mean": 0.8791666666666667,
+        "test_lecture_room_fall_recall_std": 0.07234898064243891,
+        "test_lecture_room_nonfall_recall_mean": 0.9577981651376147,
+        "test_lecture_room_nonfall_recall_std": 0.07096909947087603
+      }
+    },
+    "resnet18": {
+      "model_config": {
+        "type": "resnet18",
+        "num_classes": 2,
+        "in_chans": 1
+      },
+      "per_seed": [
+        {
+          "model_name": "resnet18",
+          "seed": 42,
+          "params_M_total": 11.171266,
+          "params_M_trainable": 11.171266,
+          "best_epoch": 56,
+          "best_val_macro_f1": 1.0,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/resnet18_seed42_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 1.0,
+          "test_train_env_macro_f1": 1.0,
+          "test_train_env_fall_recall": 1.0,
+          "test_train_env_nonfall_recall": 1.0,
+          "test_train_env_confusion_matrix": [
+            [
+              34,
+              0
+            ],
+            [
+              0,
+              27
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 27.0
+            },
+            "accuracy": 1.0,
+            "macro avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     1.0000    1.0000    1.0000        34\n        Fall     1.0000    1.0000    1.0000        27\n\n    accuracy                         1.0000        61\n   macro avg     1.0000    1.0000    1.0000        61\nweighted avg     1.0000    1.0000    1.0000        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.8467741935483871,
+          "test_living_room_macro_f1": 0.8422497489119518,
+          "test_living_room_fall_recall": 0.9230769230769231,
+          "test_living_room_nonfall_recall": 0.802547770700637,
+          "test_living_room_confusion_matrix": [
+            [
+              126,
+              31
+            ],
+            [
+              7,
+              84
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.9473684210526315,
+              "recall": 0.802547770700637,
+              "f1-score": 0.8689655172413793,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.7304347826086957,
+              "recall": 0.9230769230769231,
+              "f1-score": 0.8155339805825242,
+              "support": 91.0
+            },
+            "accuracy": 0.8467741935483871,
+            "macro avg": {
+              "precision": 0.8389016018306636,
+              "recall": 0.8628123468887801,
+              "f1-score": 0.8422497489119518,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.8677677714623163,
+              "recall": 0.8467741935483871,
+              "f1-score": 0.8493595904834929,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9474    0.8025    0.8690       157\n        Fall     0.7304    0.9231    0.8155        91\n\n    accuracy                         0.8468       248\n   macro avg     0.8389    0.8628    0.8422       248\nweighted avg     0.8678    0.8468    0.8494       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.9121951219512195,
+          "test_lecture_room_macro_f1": 0.911434331797235,
+          "test_lecture_room_fall_recall": 0.875,
+          "test_lecture_room_nonfall_recall": 0.944954128440367,
+          "test_lecture_room_confusion_matrix": [
+            [
+              103,
+              6
+            ],
+            [
+              12,
+              84
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.8956521739130435,
+              "recall": 0.944954128440367,
+              "f1-score": 0.9196428571428571,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 0.9333333333333333,
+              "recall": 0.875,
+              "f1-score": 0.9032258064516129,
+              "support": 96.0
+            },
+            "accuracy": 0.9121951219512195,
+            "macro avg": {
+              "precision": 0.9144927536231884,
+              "recall": 0.9099770642201834,
+              "f1-score": 0.911434331797235,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.9132979851537645,
+              "recall": 0.9121951219512195,
+              "f1-score": 0.9119548724289086,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.8957    0.9450    0.9196       109\n        Fall     0.9333    0.8750    0.9032        96\n\n    accuracy                         0.9122       205\n   macro avg     0.9145    0.9100    0.9114       205\nweighted avg     0.9133    0.9122    0.9120       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        },
+        {
+          "model_name": "resnet18",
+          "seed": 123,
+          "params_M_total": 11.171266,
+          "params_M_trainable": 11.171266,
+          "best_epoch": 33,
+          "best_val_macro_f1": 1.0,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/resnet18_seed123_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 1.0,
+          "test_train_env_macro_f1": 1.0,
+          "test_train_env_fall_recall": 1.0,
+          "test_train_env_nonfall_recall": 1.0,
+          "test_train_env_confusion_matrix": [
+            [
+              34,
+              0
+            ],
+            [
+              0,
+              27
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 27.0
+            },
+            "accuracy": 1.0,
+            "macro avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     1.0000    1.0000    1.0000        34\n        Fall     1.0000    1.0000    1.0000        27\n\n    accuracy                         1.0000        61\n   macro avg     1.0000    1.0000    1.0000        61\nweighted avg     1.0000    1.0000    1.0000        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.8790322580645161,
+          "test_living_room_macro_f1": 0.875801282051282,
+          "test_living_room_fall_recall": 0.978021978021978,
+          "test_living_room_nonfall_recall": 0.821656050955414,
+          "test_living_room_confusion_matrix": [
+            [
+              129,
+              28
+            ],
+            [
+              2,
+              89
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.9847328244274809,
+              "recall": 0.821656050955414,
+              "f1-score": 0.8958333333333334,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.7606837606837606,
+              "recall": 0.978021978021978,
+              "f1-score": 0.8557692307692307,
+              "support": 91.0
+            },
+            "accuracy": 0.8790322580645161,
+            "macro avg": {
+              "precision": 0.8727082925556208,
+              "recall": 0.8998390144886961,
+              "f1-score": 0.875801282051282,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.9025212728118416,
+              "recall": 0.8790322580645161,
+              "f1-score": 0.8811323924731184,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9847    0.8217    0.8958       157\n        Fall     0.7607    0.9780    0.8558        91\n\n    accuracy                         0.8790       248\n   macro avg     0.8727    0.8998    0.8758       248\nweighted avg     0.9025    0.8790    0.8811       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.8975609756097561,
+          "test_lecture_room_macro_f1": 0.8953191489361703,
+          "test_lecture_room_fall_recall": 0.8020833333333334,
+          "test_lecture_room_nonfall_recall": 0.981651376146789,
+          "test_lecture_room_confusion_matrix": [
+            [
+              107,
+              2
+            ],
+            [
+              19,
+              77
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.8492063492063492,
+              "recall": 0.981651376146789,
+              "f1-score": 0.9106382978723404,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 0.9746835443037974,
+              "recall": 0.8020833333333334,
+              "f1-score": 0.88,
+              "support": 96.0
+            },
+            "accuracy": 0.8975609756097561,
+            "macro avg": {
+              "precision": 0.9119449467550733,
+              "recall": 0.8918673547400612,
+              "f1-score": 0.8953191489361703,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.9079664015446665,
+              "recall": 0.8975609756097561,
+              "f1-score": 0.8962906071613908,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.8492    0.9817    0.9106       109\n        Fall     0.9747    0.8021    0.8800        96\n\n    accuracy                         0.8976       205\n   macro avg     0.9119    0.8919    0.8953       205\nweighted avg     0.9080    0.8976    0.8963       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        },
+        {
+          "model_name": "resnet18",
+          "seed": 2024,
+          "params_M_total": 11.171266,
+          "params_M_trainable": 11.171266,
+          "best_epoch": 96,
+          "best_val_macro_f1": 1.0,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/resnet18_seed2024_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 1.0,
+          "test_train_env_macro_f1": 1.0,
+          "test_train_env_fall_recall": 1.0,
+          "test_train_env_nonfall_recall": 1.0,
+          "test_train_env_confusion_matrix": [
+            [
+              34,
+              0
+            ],
+            [
+              0,
+              27
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 27.0
+            },
+            "accuracy": 1.0,
+            "macro avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     1.0000    1.0000    1.0000        34\n        Fall     1.0000    1.0000    1.0000        27\n\n    accuracy                         1.0000        61\n   macro avg     1.0000    1.0000    1.0000        61\nweighted avg     1.0000    1.0000    1.0000        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.907258064516129,
+          "test_living_room_macro_f1": 0.9024607123924828,
+          "test_living_room_fall_recall": 0.9340659340659341,
+          "test_living_room_nonfall_recall": 0.89171974522293,
+          "test_living_room_confusion_matrix": [
+            [
+              140,
+              17
+            ],
+            [
+              6,
+              85
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.958904109589041,
+              "recall": 0.89171974522293,
+              "f1-score": 0.9240924092409241,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.8333333333333334,
+              "recall": 0.9340659340659341,
+              "f1-score": 0.8808290155440415,
+              "support": 91.0
+            },
+            "accuracy": 0.907258064516129,
+            "macro avg": {
+              "precision": 0.8961187214611872,
+              "recall": 0.912892839644432,
+              "f1-score": 0.9024607123924828,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.9128277360435999,
+              "recall": 0.907258064516129,
+              "f1-score": 0.9082175349408582,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9589    0.8917    0.9241       157\n        Fall     0.8333    0.9341    0.8808        91\n\n    accuracy                         0.9073       248\n   macro avg     0.8961    0.9129    0.9025       248\nweighted avg     0.9128    0.9073    0.9082       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.926829268292683,
+          "test_lecture_room_macro_f1": 0.9258124442085454,
+          "test_lecture_room_fall_recall": 0.8645833333333334,
+          "test_lecture_room_nonfall_recall": 0.981651376146789,
+          "test_lecture_room_confusion_matrix": [
+            [
+              107,
+              2
+            ],
+            [
+              13,
+              83
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.8916666666666667,
+              "recall": 0.981651376146789,
+              "f1-score": 0.9344978165938864,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 0.9764705882352941,
+              "recall": 0.8645833333333334,
+              "f1-score": 0.9171270718232044,
+              "support": 96.0
+            },
+            "accuracy": 0.926829268292683,
+            "macro avg": {
+              "precision": 0.9340686274509804,
+              "recall": 0.9231173547400612,
+              "f1-score": 0.9258124442085454,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.9313797226207556,
+              "recall": 0.926829268292683,
+              "f1-score": 0.9263632239207864,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.8917    0.9817    0.9345       109\n        Fall     0.9765    0.8646    0.9171        96\n\n    accuracy                         0.9268       205\n   macro avg     0.9341    0.9231    0.9258       205\nweighted avg     0.9314    0.9268    0.9264       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        },
+        {
+          "model_name": "resnet18",
+          "seed": 3407,
+          "params_M_total": 11.171266,
+          "params_M_trainable": 11.171266,
+          "best_epoch": 16,
+          "best_val_macro_f1": 1.0,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/resnet18_seed3407_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 1.0,
+          "test_train_env_macro_f1": 1.0,
+          "test_train_env_fall_recall": 1.0,
+          "test_train_env_nonfall_recall": 1.0,
+          "test_train_env_confusion_matrix": [
+            [
+              34,
+              0
+            ],
+            [
+              0,
+              27
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 27.0
+            },
+            "accuracy": 1.0,
+            "macro avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1-score": 1.0,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     1.0000    1.0000    1.0000        34\n        Fall     1.0000    1.0000    1.0000        27\n\n    accuracy                         1.0000        61\n   macro avg     1.0000    1.0000    1.0000        61\nweighted avg     1.0000    1.0000    1.0000        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.8830645161290323,
+          "test_living_room_macro_f1": 0.878314129570411,
+          "test_living_room_fall_recall": 0.9340659340659341,
+          "test_living_room_nonfall_recall": 0.8535031847133758,
+          "test_living_room_confusion_matrix": [
+            [
+              134,
+              23
+            ],
+            [
+              6,
+              85
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.9571428571428572,
+              "recall": 0.8535031847133758,
+              "f1-score": 0.9023569023569024,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.7870370370370371,
+              "recall": 0.9340659340659341,
+              "f1-score": 0.8542713567839196,
+              "support": 91.0
+            },
+            "accuracy": 0.8830645161290323,
+            "macro avg": {
+              "precision": 0.8720899470899471,
+              "recall": 0.893784559389655,
+              "f1-score": 0.878314129570411,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.8947249957330603,
+              "recall": 0.8830645161290323,
+              "f1-score": 0.8847126094248805,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9571    0.8535    0.9024       157\n        Fall     0.7870    0.9341    0.8543        91\n\n    accuracy                         0.8831       248\n   macro avg     0.8721    0.8938    0.8783       248\nweighted avg     0.8947    0.8831    0.8847       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.8048780487804879,
+          "test_lecture_room_macro_f1": 0.7909016727866176,
+          "test_lecture_room_fall_recall": 0.5833333333333334,
+          "test_lecture_room_nonfall_recall": 1.0,
+          "test_lecture_room_confusion_matrix": [
+            [
+              109,
+              0
+            ],
+            [
+              40,
+              56
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.7315436241610739,
+              "recall": 1.0,
+              "f1-score": 0.8449612403100775,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 1.0,
+              "recall": 0.5833333333333334,
+              "f1-score": 0.7368421052631579,
+              "support": 96.0
+            },
+            "accuracy": 0.8048780487804879,
+            "macro avg": {
+              "precision": 0.8657718120805369,
+              "recall": 0.7916666666666667,
+              "f1-score": 0.7909016727866176,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.8572597806514978,
+              "recall": 0.8048780487804879,
+              "f1-score": 0.7943298404832273,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.7315    1.0000    0.8450       109\n        Fall     1.0000    0.5833    0.7368        96\n\n    accuracy                         0.8049       205\n   macro avg     0.8658    0.7917    0.7909       205\nweighted avg     0.8573    0.8049    0.7943       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        },
+        {
+          "model_name": "resnet18",
+          "seed": 777,
+          "params_M_total": 11.171266,
+          "params_M_trainable": 11.171266,
+          "best_epoch": 53,
+          "best_val_macro_f1": 0.9834464043419266,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/resnet18_seed777_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 0.9836065573770492,
+          "test_train_env_macro_f1": 0.9834464043419266,
+          "test_train_env_fall_recall": 1.0,
+          "test_train_env_nonfall_recall": 0.9705882352941176,
+          "test_train_env_confusion_matrix": [
+            [
+              33,
+              1
+            ],
+            [
+              0,
+              27
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 1.0,
+              "recall": 0.9705882352941176,
+              "f1-score": 0.9850746268656716,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 0.9642857142857143,
+              "recall": 1.0,
+              "f1-score": 0.9818181818181818,
+              "support": 27.0
+            },
+            "accuracy": 0.9836065573770492,
+            "macro avg": {
+              "precision": 0.9821428571428572,
+              "recall": 0.9852941176470589,
+              "f1-score": 0.9834464043419266,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 0.984192037470726,
+              "recall": 0.9836065573770492,
+              "f1-score": 0.9836332495495695,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     1.0000    0.9706    0.9851        34\n        Fall     0.9643    1.0000    0.9818        27\n\n    accuracy                         0.9836        61\n   macro avg     0.9821    0.9853    0.9834        61\nweighted avg     0.9842    0.9836    0.9836        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.907258064516129,
+          "test_living_room_macro_f1": 0.9038030188042836,
+          "test_living_room_fall_recall": 0.978021978021978,
+          "test_living_room_nonfall_recall": 0.8662420382165605,
+          "test_living_room_confusion_matrix": [
+            [
+              136,
+              21
+            ],
+            [
+              2,
+              89
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.9855072463768116,
+              "recall": 0.8662420382165605,
+              "f1-score": 0.9220338983050848,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.8090909090909091,
+              "recall": 0.978021978021978,
+              "f1-score": 0.8855721393034826,
+              "support": 91.0
+            },
+            "accuracy": 0.907258064516129,
+            "macro avg": {
+              "precision": 0.8972990777338603,
+              "recall": 0.9221320081192692,
+              "f1-score": 0.9038030188042836,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.9207738322920652,
+              "recall": 0.907258064516129,
+              "f1-score": 0.9086547851230452,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9855    0.8662    0.9220       157\n        Fall     0.8091    0.9780    0.8856        91\n\n    accuracy                         0.9073       248\n   macro avg     0.8973    0.9221    0.9038       248\nweighted avg     0.9208    0.9073    0.9087       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.8975609756097561,
+          "test_lecture_room_macro_f1": 0.8953191489361703,
+          "test_lecture_room_fall_recall": 0.8020833333333334,
+          "test_lecture_room_nonfall_recall": 0.981651376146789,
+          "test_lecture_room_confusion_matrix": [
+            [
+              107,
+              2
+            ],
+            [
+              19,
+              77
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.8492063492063492,
+              "recall": 0.981651376146789,
+              "f1-score": 0.9106382978723404,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 0.9746835443037974,
+              "recall": 0.8020833333333334,
+              "f1-score": 0.88,
+              "support": 96.0
+            },
+            "accuracy": 0.8975609756097561,
+            "macro avg": {
+              "precision": 0.9119449467550733,
+              "recall": 0.8918673547400612,
+              "f1-score": 0.8953191489361703,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.9079664015446665,
+              "recall": 0.8975609756097561,
+              "f1-score": 0.8962906071613908,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.8492    0.9817    0.9106       109\n        Fall     0.9747    0.8021    0.8800        96\n\n    accuracy                         0.8976       205\n   macro avg     0.9119    0.8919    0.8953       205\nweighted avg     0.9080    0.8976    0.8963       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        }
+      ],
+      "aggregate": {
+        "seed_mean": 1274.6,
+        "seed_std": 1280.7670514187973,
+        "params_M_total_mean": 11.171266,
+        "params_M_total_std": 0.0,
+        "params_M_trainable_mean": 11.171266,
+        "params_M_trainable_std": 0.0,
+        "best_epoch_mean": 50.8,
+        "best_epoch_std": 26.843248685656512,
+        "best_val_macro_f1_mean": 0.9966892808683854,
+        "best_val_macro_f1_std": 0.00662143826322934,
+        "use_ema_mean": 0.0,
+        "use_ema_std": 0.0,
+        "test_train_env_accuracy_mean": 0.9967213114754099,
+        "test_train_env_accuracy_std": 0.006557377049180335,
+        "test_train_env_macro_f1_mean": 0.9966892808683854,
+        "test_train_env_macro_f1_std": 0.00662143826322934,
+        "test_train_env_fall_recall_mean": 1.0,
+        "test_train_env_fall_recall_std": 0.0,
+        "test_train_env_nonfall_recall_mean": 0.9941176470588236,
+        "test_train_env_nonfall_recall_std": 0.011764705882352944,
+        "test_living_room_accuracy_mean": 0.8846774193548387,
+        "test_living_room_accuracy_std": 0.022319923392093606,
+        "test_living_room_macro_f1_mean": 0.8805257783460823,
+        "test_living_room_macro_f1_std": 0.022428722387857036,
+        "test_living_room_fall_recall_mean": 0.9494505494505494,
+        "test_living_room_fall_recall_std": 0.023671054097294492,
+        "test_living_room_nonfall_recall_mean": 0.8471337579617835,
+        "test_living_room_nonfall_recall_std": 0.031719489421627334,
+        "test_lecture_room_accuracy_mean": 0.8878048780487805,
+        "test_lecture_room_accuracy_std": 0.04286025880290496,
+        "test_lecture_room_macro_f1_mean": 0.8837573493329477,
+        "test_lecture_room_macro_f1_std": 0.047799944456726765,
+        "test_lecture_room_fall_recall_mean": 0.7854166666666667,
+        "test_lecture_room_fall_recall_std": 0.1055327095159495,
+        "test_lecture_room_nonfall_recall_mean": 0.9779816513761468,
+        "test_lecture_room_nonfall_recall_std": 0.01797790636905085
+      }
+    },
+    "lstm": {
+      "model_config": {
+        "type": "lstm",
+        "num_classes": 2,
+        "input_size": 90,
+        "hidden_size": 128,
+        "num_layers": 2,
+        "bidirectional": true,
+        "dropout": 0.2
+      },
+      "per_seed": [
+        {
+          "model_name": "lstm",
+          "seed": 42,
+          "params_M_total": 0.621058,
+          "params_M_trainable": 0.621058,
+          "best_epoch": 33,
+          "best_val_macro_f1": 0.9176788124156545,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/lstm_seed42_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 0.9180327868852459,
+          "test_train_env_macro_f1": 0.9176788124156545,
+          "test_train_env_fall_recall": 0.9629629629629629,
+          "test_train_env_nonfall_recall": 0.8823529411764706,
+          "test_train_env_confusion_matrix": [
+            [
+              30,
+              4
+            ],
+            [
+              1,
+              26
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 0.967741935483871,
+              "recall": 0.8823529411764706,
+              "f1-score": 0.9230769230769231,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 0.8666666666666667,
+              "recall": 0.9629629629629629,
+              "f1-score": 0.9122807017543859,
+              "support": 27.0
+            },
+            "accuracy": 0.9180327868852459,
+            "macro avg": {
+              "precision": 0.9172043010752688,
+              "recall": 0.9226579520697167,
+              "f1-score": 0.9176788124156545,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 0.9230037017451086,
+              "recall": 0.9180327868852459,
+              "f1-score": 0.9182982677374395,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9677    0.8824    0.9231        34\n        Fall     0.8667    0.9630    0.9123        27\n\n    accuracy                         0.9180        61\n   macro avg     0.9172    0.9227    0.9177        61\nweighted avg     0.9230    0.9180    0.9183        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.657258064516129,
+          "test_living_room_macro_f1": 0.6571186909351161,
+          "test_living_room_fall_recall": 0.8681318681318682,
+          "test_living_room_nonfall_recall": 0.535031847133758,
+          "test_living_room_confusion_matrix": [
+            [
+              84,
+              73
+            ],
+            [
+              12,
+              79
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.875,
+              "recall": 0.535031847133758,
+              "f1-score": 0.6640316205533597,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.5197368421052632,
+              "recall": 0.8681318681318682,
+              "f1-score": 0.6502057613168725,
+              "support": 91.0
+            },
+            "accuracy": 0.657258064516129,
+            "macro avg": {
+              "precision": 0.6973684210526316,
+              "recall": 0.701581857632813,
+              "f1-score": 0.6571186909351161,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.7446413412563667,
+              "recall": 0.657258064516129,
+              "f1-score": 0.6589584222044874,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.8750    0.5350    0.6640       157\n        Fall     0.5197    0.8681    0.6502        91\n\n    accuracy                         0.6573       248\n   macro avg     0.6974    0.7016    0.6571       248\nweighted avg     0.7446    0.6573    0.6590       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.6146341463414634,
+          "test_lecture_room_macro_f1": 0.6062006079027356,
+          "test_lecture_room_fall_recall": 0.8125,
+          "test_lecture_room_nonfall_recall": 0.44036697247706424,
+          "test_lecture_room_confusion_matrix": [
+            [
+              48,
+              61
+            ],
+            [
+              18,
+              78
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.7272727272727273,
+              "recall": 0.44036697247706424,
+              "f1-score": 0.5485714285714286,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 0.5611510791366906,
+              "recall": 0.8125,
+              "f1-score": 0.6638297872340425,
+              "support": 96.0
+            },
+            "accuracy": 0.6146341463414634,
+            "macro avg": {
+              "precision": 0.6442119032047089,
+              "recall": 0.6264334862385321,
+              "f1-score": 0.6062006079027356,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.649479174974876,
+              "recall": 0.6146341463414634,
+              "f1-score": 0.6025460745792868,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.7273    0.4404    0.5486       109\n        Fall     0.5612    0.8125    0.6638        96\n\n    accuracy                         0.6146       205\n   macro avg     0.6442    0.6264    0.6062       205\nweighted avg     0.6495    0.6146    0.6025       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        },
+        {
+          "model_name": "lstm",
+          "seed": 123,
+          "params_M_total": 0.621058,
+          "params_M_trainable": 0.621058,
+          "best_epoch": 21,
+          "best_val_macro_f1": 0.883237626469784,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/lstm_seed123_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 0.8852459016393442,
+          "test_train_env_macro_f1": 0.883237626469784,
+          "test_train_env_fall_recall": 0.8518518518518519,
+          "test_train_env_nonfall_recall": 0.9117647058823529,
+          "test_train_env_confusion_matrix": [
+            [
+              31,
+              3
+            ],
+            [
+              4,
+              23
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 0.8857142857142857,
+              "recall": 0.9117647058823529,
+              "f1-score": 0.8985507246376812,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 0.8846153846153846,
+              "recall": 0.8518518518518519,
+              "f1-score": 0.8679245283018868,
+              "support": 27.0
+            },
+            "accuracy": 0.8852459016393442,
+            "macro avg": {
+              "precision": 0.8851648351648351,
+              "recall": 0.8818082788671024,
+              "f1-score": 0.883237626469784,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 0.8852278868672312,
+              "recall": 0.8852459016393442,
+              "f1-score": 0.8849948672431492,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.8857    0.9118    0.8986        34\n        Fall     0.8846    0.8519    0.8679        27\n\n    accuracy                         0.8852        61\n   macro avg     0.8852    0.8818    0.8832        61\nweighted avg     0.8852    0.8852    0.8850        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.6693548387096774,
+          "test_living_room_macro_f1": 0.6685788787483703,
+          "test_living_room_fall_recall": 0.8461538461538461,
+          "test_living_room_nonfall_recall": 0.5668789808917197,
+          "test_living_room_confusion_matrix": [
+            [
+              89,
+              68
+            ],
+            [
+              14,
+              77
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.8640776699029126,
+              "recall": 0.5668789808917197,
+              "f1-score": 0.6846153846153846,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.5310344827586206,
+              "recall": 0.8461538461538461,
+              "f1-score": 0.652542372881356,
+              "support": 91.0
+            },
+            "accuracy": 0.6693548387096774,
+            "macro avg": {
+              "precision": 0.6975560763307667,
+              "recall": 0.7065164135227829,
+              "f1-score": 0.6685788787483703,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.7418723068781925,
+              "recall": 0.6693548387096774,
+              "f1-score": 0.6728466585355596,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.8641    0.5669    0.6846       157\n        Fall     0.5310    0.8462    0.6525        91\n\n    accuracy                         0.6694       248\n   macro avg     0.6976    0.7065    0.6686       248\nweighted avg     0.7419    0.6694    0.6728       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.7073170731707317,
+          "test_lecture_room_macro_f1": 0.7067518596223537,
+          "test_lecture_room_fall_recall": 0.7083333333333334,
+          "test_lecture_room_nonfall_recall": 0.7064220183486238,
+          "test_lecture_room_confusion_matrix": [
+            [
+              77,
+              32
+            ],
+            [
+              28,
+              68
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.7333333333333333,
+              "recall": 0.7064220183486238,
+              "f1-score": 0.719626168224299,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 0.68,
+              "recall": 0.7083333333333334,
+              "f1-score": 0.6938775510204082,
+              "support": 96.0
+            },
+            "accuracy": 0.7073170731707317,
+            "macro avg": {
+              "precision": 0.7066666666666667,
+              "recall": 0.7073776758409787,
+              "f1-score": 0.7067518596223537,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.7083577235772357,
+              "recall": 0.7073170731707317,
+              "f1-score": 0.7075682791922331,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.7333    0.7064    0.7196       109\n        Fall     0.6800    0.7083    0.6939        96\n\n    accuracy                         0.7073       205\n   macro avg     0.7067    0.7074    0.7068       205\nweighted avg     0.7084    0.7073    0.7076       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        },
+        {
+          "model_name": "lstm",
+          "seed": 2024,
+          "params_M_total": 0.621058,
+          "params_M_trainable": 0.621058,
+          "best_epoch": 14,
+          "best_val_macro_f1": 0.933982683982684,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/lstm_seed2024_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 0.9344262295081968,
+          "test_train_env_macro_f1": 0.933982683982684,
+          "test_train_env_fall_recall": 0.9629629629629629,
+          "test_train_env_nonfall_recall": 0.9117647058823529,
+          "test_train_env_confusion_matrix": [
+            [
+              31,
+              3
+            ],
+            [
+              1,
+              26
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 0.96875,
+              "recall": 0.9117647058823529,
+              "f1-score": 0.9393939393939394,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 0.896551724137931,
+              "recall": 0.9629629629629629,
+              "f1-score": 0.9285714285714286,
+              "support": 27.0
+            },
+            "accuracy": 0.9344262295081968,
+            "macro avg": {
+              "precision": 0.9326508620689655,
+              "recall": 0.9373638344226579,
+              "f1-score": 0.933982683982684,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 0.9367933860938384,
+              "recall": 0.9344262295081968,
+              "f1-score": 0.9346036477184019,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9688    0.9118    0.9394        34\n        Fall     0.8966    0.9630    0.9286        27\n\n    accuracy                         0.9344        61\n   macro avg     0.9327    0.9374    0.9340        61\nweighted avg     0.9368    0.9344    0.9346        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.6612903225806451,
+          "test_living_room_macro_f1": 0.6609375,
+          "test_living_room_fall_recall": 0.8571428571428571,
+          "test_living_room_nonfall_recall": 0.5477707006369427,
+          "test_living_room_confusion_matrix": [
+            [
+              86,
+              71
+            ],
+            [
+              13,
+              78
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.8686868686868687,
+              "recall": 0.5477707006369427,
+              "f1-score": 0.671875,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.5234899328859061,
+              "recall": 0.8571428571428571,
+              "f1-score": 0.65,
+              "support": 91.0
+            },
+            "accuracy": 0.6612903225806451,
+            "macro avg": {
+              "precision": 0.6960884007863875,
+              "recall": 0.7024567788898999,
+              "f1-score": 0.6609375,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.7420218640179671,
+              "recall": 0.6612903225806451,
+              "f1-score": 0.6638482862903226,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.8687    0.5478    0.6719       157\n        Fall     0.5235    0.8571    0.6500        91\n\n    accuracy                         0.6613       248\n   macro avg     0.6961    0.7025    0.6609       248\nweighted avg     0.7420    0.6613    0.6638       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.751219512195122,
+          "test_lecture_room_macro_f1": 0.7510062159136917,
+          "test_lecture_room_fall_recall": 0.8333333333333334,
+          "test_lecture_room_nonfall_recall": 0.6788990825688074,
+          "test_lecture_room_confusion_matrix": [
+            [
+              74,
+              35
+            ],
+            [
+              16,
+              80
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.8222222222222222,
+              "recall": 0.6788990825688074,
+              "f1-score": 0.7437185929648241,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 0.6956521739130435,
+              "recall": 0.8333333333333334,
+              "f1-score": 0.7582938388625592,
+              "support": 96.0
+            },
+            "accuracy": 0.751219512195122,
+            "macro avg": {
+              "precision": 0.7589371980676328,
+              "recall": 0.7561162079510704,
+              "f1-score": 0.7510062159136917,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.7629503947213385,
+              "recall": 0.751219512195122,
+              "f1-score": 0.7505440739705926,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.8222    0.6789    0.7437       109\n        Fall     0.6957    0.8333    0.7583        96\n\n    accuracy                         0.7512       205\n   macro avg     0.7589    0.7561    0.7510       205\nweighted avg     0.7630    0.7512    0.7505       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        },
+        {
+          "model_name": "lstm",
+          "seed": 3407,
+          "params_M_total": 0.621058,
+          "params_M_trainable": 0.621058,
+          "best_epoch": 23,
+          "best_val_macro_f1": 0.9342672413793103,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/lstm_seed3407_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 0.9344262295081968,
+          "test_train_env_macro_f1": 0.9342672413793103,
+          "test_train_env_fall_recall": 1.0,
+          "test_train_env_nonfall_recall": 0.8823529411764706,
+          "test_train_env_confusion_matrix": [
+            [
+              30,
+              4
+            ],
+            [
+              0,
+              27
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 1.0,
+              "recall": 0.8823529411764706,
+              "f1-score": 0.9375,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 0.8709677419354839,
+              "recall": 1.0,
+              "f1-score": 0.9310344827586207,
+              "support": 27.0
+            },
+            "accuracy": 0.9344262295081968,
+            "macro avg": {
+              "precision": 0.935483870967742,
+              "recall": 0.9411764705882353,
+              "f1-score": 0.9342672413793103,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 0.9428873611845584,
+              "recall": 0.9344262295081968,
+              "f1-score": 0.9346382136800453,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     1.0000    0.8824    0.9375        34\n        Fall     0.8710    1.0000    0.9310        27\n\n    accuracy                         0.9344        61\n   macro avg     0.9355    0.9412    0.9343        61\nweighted avg     0.9429    0.9344    0.9346        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.5887096774193549,
+          "test_living_room_macro_f1": 0.5877444589308995,
+          "test_living_room_fall_recall": 0.8681318681318682,
+          "test_living_room_nonfall_recall": 0.4267515923566879,
+          "test_living_room_confusion_matrix": [
+            [
+              67,
+              90
+            ],
+            [
+              12,
+              79
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.8481012658227848,
+              "recall": 0.4267515923566879,
+              "f1-score": 0.5677966101694916,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.46745562130177515,
+              "recall": 0.8681318681318682,
+              "f1-score": 0.6076923076923076,
+              "support": 91.0
+            },
+            "accuracy": 0.5887096774193549,
+            "macro avg": {
+              "precision": 0.65777844356228,
+              "recall": 0.6474417302442781,
+              "f1-score": 0.5877444589308995,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.7084288720670918,
+              "recall": 0.5887096774193549,
+              "f1-score": 0.5824357572443959,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.8481    0.4268    0.5678       157\n        Fall     0.4675    0.8681    0.6077        91\n\n    accuracy                         0.5887       248\n   macro avg     0.6578    0.6474    0.5877       248\nweighted avg     0.7084    0.5887    0.5824       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.6097560975609756,
+          "test_lecture_room_macro_f1": 0.6096725057121097,
+          "test_lecture_room_fall_recall": 0.6666666666666666,
+          "test_lecture_room_nonfall_recall": 0.5596330275229358,
+          "test_lecture_room_confusion_matrix": [
+            [
+              61,
+              48
+            ],
+            [
+              32,
+              64
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.6559139784946236,
+              "recall": 0.5596330275229358,
+              "f1-score": 0.6039603960396039,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 0.5714285714285714,
+              "recall": 0.6666666666666666,
+              "f1-score": 0.6153846153846154,
+              "support": 96.0
+            },
+            "accuracy": 0.6097560975609756,
+            "macro avg": {
+              "precision": 0.6136712749615976,
+              "recall": 0.6131498470948011,
+              "f1-score": 0.6096725057121097,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.6163500805514966,
+              "recall": 0.6097560975609756,
+              "f1-score": 0.6093102743670239,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.6559    0.5596    0.6040       109\n        Fall     0.5714    0.6667    0.6154        96\n\n    accuracy                         0.6098       205\n   macro avg     0.6137    0.6131    0.6097       205\nweighted avg     0.6164    0.6098    0.6093       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        },
+        {
+          "model_name": "lstm",
+          "seed": 777,
+          "params_M_total": 0.621058,
+          "params_M_trainable": 0.621058,
+          "best_epoch": 68,
+          "best_val_macro_f1": 0.9342672413793103,
+          "best_checkpoint_path": "./outputs_model_compare_enetfall_lightaug+noabs+origin/checkpoints/lstm_seed777_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_train_env_accuracy": 0.9344262295081968,
+          "test_train_env_macro_f1": 0.9342672413793103,
+          "test_train_env_fall_recall": 1.0,
+          "test_train_env_nonfall_recall": 0.8823529411764706,
+          "test_train_env_confusion_matrix": [
+            [
+              30,
+              4
+            ],
+            [
+              0,
+              27
+            ]
+          ],
+          "test_train_env_report_structured": {
+            "Nonfall": {
+              "precision": 1.0,
+              "recall": 0.8823529411764706,
+              "f1-score": 0.9375,
+              "support": 34.0
+            },
+            "Fall": {
+              "precision": 0.8709677419354839,
+              "recall": 1.0,
+              "f1-score": 0.9310344827586207,
+              "support": 27.0
+            },
+            "accuracy": 0.9344262295081968,
+            "macro avg": {
+              "precision": 0.935483870967742,
+              "recall": 0.9411764705882353,
+              "f1-score": 0.9342672413793103,
+              "support": 61.0
+            },
+            "weighted avg": {
+              "precision": 0.9428873611845584,
+              "recall": 0.9344262295081968,
+              "f1-score": 0.9346382136800453,
+              "support": 61.0
+            }
+          },
+          "test_train_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     1.0000    0.8824    0.9375        34\n        Fall     0.8710    1.0000    0.9310        27\n\n    accuracy                         0.9344        61\n   macro avg     0.9355    0.9412    0.9343        61\nweighted avg     0.9429    0.9344    0.9346        61\n",
+          "test_train_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_living_room_accuracy": 0.6048387096774194,
+          "test_living_room_macro_f1": 0.6039113428943937,
+          "test_living_room_fall_recall": 0.8901098901098901,
+          "test_living_room_nonfall_recall": 0.4394904458598726,
+          "test_living_room_confusion_matrix": [
+            [
+              69,
+              88
+            ],
+            [
+              10,
+              81
+            ]
+          ],
+          "test_living_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.8734177215189873,
+              "recall": 0.4394904458598726,
+              "f1-score": 0.5847457627118644,
+              "support": 157.0
+            },
+            "Fall": {
+              "precision": 0.47928994082840237,
+              "recall": 0.8901098901098901,
+              "f1-score": 0.6230769230769231,
+              "support": 91.0
+            },
+            "accuracy": 0.6048387096774194,
+            "macro avg": {
+              "precision": 0.6763538311736949,
+              "recall": 0.6648001679848814,
+              "f1-score": 0.6039113428943937,
+              "support": 248.0
+            },
+            "weighted avg": {
+              "precision": 0.7287982536042968,
+              "recall": 0.6048387096774194,
+              "f1-score": 0.5988108255877528,
+              "support": 248.0
+            }
+          },
+          "test_living_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.8734    0.4395    0.5847       157\n        Fall     0.4793    0.8901    0.6231        91\n\n    accuracy                         0.6048       248\n   macro avg     0.6764    0.6648    0.6039       248\nweighted avg     0.7288    0.6048    0.5988       248\n",
+          "test_living_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "test_lecture_room_accuracy": 0.6536585365853659,
+          "test_lecture_room_macro_f1": 0.6520356690334457,
+          "test_lecture_room_fall_recall": 0.7708333333333334,
+          "test_lecture_room_nonfall_recall": 0.5504587155963303,
+          "test_lecture_room_confusion_matrix": [
+            [
+              60,
+              49
+            ],
+            [
+              22,
+              74
+            ]
+          ],
+          "test_lecture_room_report_structured": {
+            "Nonfall": {
+              "precision": 0.7317073170731707,
+              "recall": 0.5504587155963303,
+              "f1-score": 0.6282722513089005,
+              "support": 109.0
+            },
+            "Fall": {
+              "precision": 0.6016260162601627,
+              "recall": 0.7708333333333334,
+              "f1-score": 0.6757990867579908,
+              "support": 96.0
+            },
+            "accuracy": 0.6536585365853659,
+            "macro avg": {
+              "precision": 0.6666666666666667,
+              "recall": 0.6606460244648318,
+              "f1-score": 0.6520356690334457,
+              "support": 205.0
+            },
+            "weighted avg": {
+              "precision": 0.6707911957168352,
+              "recall": 0.6536585365853659,
+              "f1-score": 0.650528720592377,
+              "support": 205.0
+            }
+          },
+          "test_lecture_room_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.7317    0.5505    0.6283       109\n        Fall     0.6016    0.7708    0.6758        96\n\n    accuracy                         0.6537       205\n   macro avg     0.6667    0.6606    0.6520       205\nweighted avg     0.6708    0.6537    0.6505       205\n",
+          "test_lecture_room_labels_order": [
+            "Nonfall",
+            "Fall"
+          ],
+          "env_stats": {
+            "dataset_meeting_room.mat": {
+              "total": 134,
+              "fall": 58,
+              "nonfall": 76,
+              "train": 107,
+              "val": 27
+            },
+            "dataset_home_lab(L).mat": {
+              "total": 85,
+              "fall": 40,
+              "nonfall": 45,
+              "train": 68,
+              "val": 17
+            },
+            "dataset_home_lab(R).mat": {
+              "total": 85,
+              "fall": 36,
+              "nonfall": 49,
+              "train": 68,
+              "val": 17
+            }
+          }
+        }
+      ],
+      "aggregate": {
+        "seed_mean": 1274.6,
+        "seed_std": 1280.7670514187973,
+        "params_M_total_mean": 0.621058,
+        "params_M_total_std": 0.0,
+        "params_M_trainable_mean": 0.621058,
+        "params_M_trainable_std": 0.0,
+        "best_epoch_mean": 31.8,
+        "best_epoch_std": 19.093454375780198,
+        "best_val_macro_f1_mean": 0.9206867211253487,
+        "best_val_macro_f1_std": 0.019784468122077285,
+        "use_ema_mean": 0.0,
+        "use_ema_std": 0.0,
+        "test_train_env_accuracy_mean": 0.921311475409836,
+        "test_train_env_accuracy_std": 0.01911787506506658,
+        "test_train_env_macro_f1_mean": 0.9206867211253487,
+        "test_train_env_macro_f1_std": 0.019784468122077285,
+        "test_train_env_fall_recall_mean": 0.9555555555555555,
+        "test_train_env_fall_recall_std": 0.05443310539518173,
+        "test_train_env_nonfall_recall_mean": 0.8941176470588235,
+        "test_train_env_nonfall_recall_std": 0.014408763192842228,
+        "test_living_room_accuracy_mean": 0.6362903225806451,
+        "test_living_room_accuracy_std": 0.03289690008769536,
+        "test_living_room_macro_f1_mean": 0.635658174301756,
+        "test_living_room_macro_f1_std": 0.03312689628756935,
+        "test_living_room_fall_recall_mean": 0.865934065934066,
+        "test_living_room_fall_recall_std": 0.014578570507056694,
+        "test_living_room_nonfall_recall_mean": 0.5031847133757962,
+        "test_living_room_nonfall_recall_std": 0.05823760229636921,
+        "test_lecture_room_accuracy_mean": 0.6673170731707317,
+        "test_lecture_room_accuracy_std": 0.054616721960110845,
+        "test_lecture_room_macro_f1_mean": 0.6651333716368673,
+        "test_lecture_room_macro_f1_std": 0.056261482437533414,
+        "test_lecture_room_fall_recall_mean": 0.7583333333333333,
+        "test_lecture_room_fall_recall_std": 0.06263873490988714,
+        "test_lecture_room_nonfall_recall_mean": 0.5871559633027523,
+        "test_lecture_room_nonfall_recall_std": 0.09622099524496802
+      }
+    }
+  },
+  "ranking_by_test_living_room_macro_f1": [
+    "resnet18",
+    "wavemamba_default",
+    "wavemamba_interp_1x1",
+    "lstm"
+  ]
+}

@@ -1,0 +1,2373 @@
+{
+  "config": {
+    "data_root": "/mnt/F/natsume/csibench_data/datasets/guozhenjennzhu/csi-bench/versions/8/csi-bench-dataset/csi-bench-dataset",
+    "task_name": "FallDetection",
+    "train_split": "train_id_new.json",
+    "val_split": "val_id_new.json",
+    "test_id_split": "test_id_new.json",
+    "test_cross_env_split": "test_cross_env_e24.json",
+    "eval_mode": "both",
+    "batch_size": 32,
+    "epochs": 120,
+    "lr": 0.001,
+    "warmup_epochs": 5,
+    "weight_decay": 0.01,
+    "target_len": 500,
+    "target_freq": 232,
+    "seeds": [
+      42,
+      123,
+      2024,
+      3407,
+      777
+    ],
+    "models": [
+      "wavemamba_default",
+      "wavemamba_interp_1x1",
+      "resnet18",
+      "lstm"
+    ],
+    "use_ema": true,
+    "ema_decay": 0.999,
+    "best_checkpoint_criterion": "raw_val_macro_f1",
+    "final_eval_checkpoint_type": "ema_best",
+    "final_report_metrics": [
+      "test_id_macro_f1",
+      "test_id_accuracy",
+      "test_cross_env_macro_f1",
+      "test_cross_env_accuracy",
+      "test_id_fall_recall",
+      "test_id_nonfall_recall",
+      "test_cross_env_fall_recall",
+      "test_cross_env_nonfall_recall"
+    ],
+    "model_files": {
+      "wavemamba": "wavemamba.py",
+      "baselines": "baseline_models.py"
+    }
+  },
+  "dataset_summary": {
+    "train": {
+      "name": "train",
+      "num_samples": 3855,
+      "num_classes": 2
+    },
+    "val": {
+      "name": "val",
+      "num_samples": 826,
+      "num_classes": 2
+    },
+    "test_id": {
+      "name": "test_id",
+      "num_samples": 826,
+      "num_classes": 2
+    },
+    "test_cross_env": {
+      "name": "test_cross_env",
+      "num_samples": 619,
+      "num_classes": 2
+    }
+  },
+  "models": {
+    "wavemamba_default": {
+      "model_config": {
+        "type": "wavemamba",
+        "num_classes": 2,
+        "in_chans": 1,
+        "depths": [
+          1,
+          1
+        ],
+        "dims": [
+          32,
+          64
+        ],
+        "patch_size": 2,
+        "stage1_main_channels": 32,
+        "stage1_aux_channels": 32,
+        "stage2_main_channels": 64,
+        "stage2_aux_channels": 64,
+        "use_stem_se": true,
+        "use_block_se": false,
+        "use_main_proj_bn": true,
+        "use_aux_proj_bn": true,
+        "use_fusion_proj_bn": true,
+        "use_upsample_bn": true,
+        "use_wavelet": true,
+        "branch_mode": "dual",
+        "recon_type": "deconv",
+        "aux_variant": "mkconv"
+      },
+      "per_seed": [
+        {
+          "model_name": "wavemamba_default",
+          "seed": 42,
+          "params_M_total": 0.196738,
+          "params_M_trainable": 0.196738,
+          "best_epoch": 118,
+          "best_val_macro_f1": 0.9794231763291794,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/wavemamba_default_seed42_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.9685230024213075,
+          "test_id_macro_f1": 0.9667251306142433,
+          "test_id_fall_recall": 0.9806451612903225,
+          "test_id_nonfall_recall": 0.9612403100775194,
+          "test_id_confusion_matrix": [
+            [
+              304,
+              6
+            ],
+            [
+              20,
+              496
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.9382716049382716,
+              "recall": 0.9806451612903225,
+              "f1-score": 0.9589905362776026,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.9880478087649402,
+              "recall": 0.9612403100775194,
+              "f1-score": 0.9744597249508841,
+              "support": 516.0
+            },
+            "accuracy": 0.9685230024213075,
+            "macro avg": {
+              "precision": 0.9631597068516059,
+              "recall": 0.970942735683921,
+              "f1-score": 0.9667251306142433,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.969366666892946,
+              "recall": 0.9685230024213075,
+              "f1-score": 0.9686540972405726,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.9383    0.9806    0.9590       310\n     Nonfall     0.9880    0.9612    0.9745       516\n\n    accuracy                         0.9685       826\n   macro avg     0.9632    0.9709    0.9667       826\nweighted avg     0.9694    0.9685    0.9687       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.6978998384491115,
+          "test_cross_env_macro_f1": 0.6762706223553463,
+          "test_cross_env_fall_recall": 0.7493670886075949,
+          "test_cross_env_nonfall_recall": 0.6071428571428571,
+          "test_cross_env_confusion_matrix": [
+            [
+              296,
+              99
+            ],
+            [
+              88,
+              136
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.7708333333333334,
+              "recall": 0.7493670886075949,
+              "f1-score": 0.7599486521181001,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.5787234042553191,
+              "recall": 0.6071428571428571,
+              "f1-score": 0.5925925925925926,
+              "support": 224.0
+            },
+            "accuracy": 0.6978998384491115,
+            "macro avg": {
+              "precision": 0.6747783687943263,
+              "recall": 0.6782549728752261,
+              "f1-score": 0.6762706223553463,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.7013137467202878,
+              "recall": 0.6978998384491115,
+              "f1-score": 0.6993868470555579,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.7708    0.7494    0.7599       395\n     Nonfall     0.5787    0.6071    0.5926       224\n\n    accuracy                         0.6979       619\n   macro avg     0.6748    0.6783    0.6763       619\nweighted avg     0.7013    0.6979    0.6994       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        },
+        {
+          "model_name": "wavemamba_default",
+          "seed": 123,
+          "params_M_total": 0.196738,
+          "params_M_trainable": 0.196738,
+          "best_epoch": 59,
+          "best_val_macro_f1": 0.9779821404771425,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/wavemamba_default_seed123_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.9757869249394673,
+          "test_id_macro_f1": 0.9743108081210191,
+          "test_id_fall_recall": 0.9806451612903225,
+          "test_id_nonfall_recall": 0.9728682170542635,
+          "test_id_confusion_matrix": [
+            [
+              304,
+              6
+            ],
+            [
+              14,
+              502
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.9559748427672956,
+              "recall": 0.9806451612903225,
+              "f1-score": 0.9681528662420382,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.9881889763779528,
+              "recall": 0.9728682170542635,
+              "f1-score": 0.98046875,
+              "support": 516.0
+            },
+            "accuracy": 0.9757869249394673,
+            "macro avg": {
+              "precision": 0.9720819095726242,
+              "recall": 0.976756689172293,
+              "f1-score": 0.9743108081210191,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.9760989262335173,
+              "recall": 0.9757869249394673,
+              "f1-score": 0.975846566023041,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.9560    0.9806    0.9682       310\n     Nonfall     0.9882    0.9729    0.9805       516\n\n    accuracy                         0.9758       826\n   macro avg     0.9721    0.9768    0.9743       826\nweighted avg     0.9761    0.9758    0.9758       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.6639741518578353,
+          "test_cross_env_macro_f1": 0.6506241180939976,
+          "test_cross_env_fall_recall": 0.6734177215189874,
+          "test_cross_env_nonfall_recall": 0.6473214285714286,
+          "test_cross_env_confusion_matrix": [
+            [
+              266,
+              129
+            ],
+            [
+              79,
+              145
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.7710144927536232,
+              "recall": 0.6734177215189874,
+              "f1-score": 0.7189189189189189,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.5291970802919708,
+              "recall": 0.6473214285714286,
+              "f1-score": 0.5823293172690763,
+              "support": 224.0
+            },
+            "accuracy": 0.6639741518578353,
+            "macro avg": {
+              "precision": 0.650105786522797,
+              "recall": 0.660369575045208,
+              "f1-score": 0.6506241180939976,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.6835070607804243,
+              "recall": 0.6639741518578353,
+              "f1-score": 0.6694906947354541,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.7710    0.6734    0.7189       395\n     Nonfall     0.5292    0.6473    0.5823       224\n\n    accuracy                         0.6640       619\n   macro avg     0.6501    0.6604    0.6506       619\nweighted avg     0.6835    0.6640    0.6695       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        },
+        {
+          "model_name": "wavemamba_default",
+          "seed": 2024,
+          "params_M_total": 0.196738,
+          "params_M_trainable": 0.196738,
+          "best_epoch": 62,
+          "best_val_macro_f1": 0.9820175656847134,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/wavemamba_default_seed2024_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.9733656174334141,
+          "test_id_macro_f1": 0.9718443412889751,
+          "test_id_fall_recall": 0.9870967741935484,
+          "test_id_nonfall_recall": 0.9651162790697675,
+          "test_id_confusion_matrix": [
+            [
+              306,
+              4
+            ],
+            [
+              18,
+              498
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.9444444444444444,
+              "recall": 0.9870967741935484,
+              "f1-score": 0.9652996845425867,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.9920318725099602,
+              "recall": 0.9651162790697675,
+              "f1-score": 0.9783889980353635,
+              "support": 516.0
+            },
+            "accuracy": 0.9733656174334141,
+            "macro avg": {
+              "precision": 0.9682381584772023,
+              "recall": 0.976106526631658,
+              "f1-score": 0.9718443412889751,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.9741721840107955,
+              "recall": 0.9733656174334141,
+              "f1-score": 0.9734765438189462,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.9444    0.9871    0.9653       310\n     Nonfall     0.9920    0.9651    0.9784       516\n\n    accuracy                         0.9734       826\n   macro avg     0.9682    0.9761    0.9718       826\nweighted avg     0.9742    0.9734    0.9735       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.654281098546042,
+          "test_cross_env_macro_f1": 0.6466442594963722,
+          "test_cross_env_fall_recall": 0.6278481012658228,
+          "test_cross_env_nonfall_recall": 0.7008928571428571,
+          "test_cross_env_confusion_matrix": [
+            [
+              248,
+              147
+            ],
+            [
+              67,
+              157
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.7873015873015873,
+              "recall": 0.6278481012658228,
+              "f1-score": 0.6985915492957746,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.5164473684210527,
+              "recall": 0.7008928571428571,
+              "f1-score": 0.5946969696969697,
+              "support": 224.0
+            },
+            "accuracy": 0.654281098546042,
+            "macro avg": {
+              "precision": 0.6518744778613199,
+              "recall": 0.6643704792043399,
+              "f1-score": 0.6466442594963722,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.6892864903238171,
+              "recall": 0.654281098546042,
+              "f1-score": 0.6609948032050924,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.7873    0.6278    0.6986       395\n     Nonfall     0.5164    0.7009    0.5947       224\n\n    accuracy                         0.6543       619\n   macro avg     0.6519    0.6644    0.6466       619\nweighted avg     0.6893    0.6543    0.6610       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        },
+        {
+          "model_name": "wavemamba_default",
+          "seed": 3407,
+          "params_M_total": 0.196738,
+          "params_M_trainable": 0.196738,
+          "best_epoch": 97,
+          "best_val_macro_f1": 0.98072120434123,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/wavemamba_default_seed3407_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.9757869249394673,
+          "test_id_macro_f1": 0.9743422483148511,
+          "test_id_fall_recall": 0.9838709677419355,
+          "test_id_nonfall_recall": 0.9709302325581395,
+          "test_id_confusion_matrix": [
+            [
+              305,
+              5
+            ],
+            [
+              15,
+              501
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.953125,
+              "recall": 0.9838709677419355,
+              "f1-score": 0.9682539682539683,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.9901185770750988,
+              "recall": 0.9709302325581395,
+              "f1-score": 0.9804305283757339,
+              "support": 516.0
+            },
+            "accuracy": 0.9757869249394673,
+            "macro avg": {
+              "precision": 0.9716217885375493,
+              "recall": 0.9774006001500375,
+              "f1-score": 0.9743422483148511,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.9762347890687058,
+              "recall": 0.9757869249394673,
+              "f1-score": 0.9758606329305192,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.9531    0.9839    0.9683       310\n     Nonfall     0.9901    0.9709    0.9804       516\n\n    accuracy                         0.9758       826\n   macro avg     0.9716    0.9774    0.9743       826\nweighted avg     0.9762    0.9758    0.9759       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.6623586429725363,
+          "test_cross_env_macro_f1": 0.65367801968642,
+          "test_cross_env_fall_recall": 0.6430379746835443,
+          "test_cross_env_nonfall_recall": 0.6964285714285714,
+          "test_cross_env_confusion_matrix": [
+            [
+              254,
+              141
+            ],
+            [
+              68,
+              156
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.7888198757763976,
+              "recall": 0.6430379746835443,
+              "f1-score": 0.708507670850767,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.5252525252525253,
+              "recall": 0.6964285714285714,
+              "f1-score": 0.5988483685220729,
+              "support": 224.0
+            },
+            "accuracy": 0.6623586429725363,
+            "macro avg": {
+              "precision": 0.6570362005144614,
+              "recall": 0.6697332730560579,
+              "f1-score": 0.65367801968642,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.6934417069276942,
+              "recall": 0.6623586429725363,
+              "f1-score": 0.6688248215428066,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.7888    0.6430    0.7085       395\n     Nonfall     0.5253    0.6964    0.5988       224\n\n    accuracy                         0.6624       619\n   macro avg     0.6570    0.6697    0.6537       619\nweighted avg     0.6934    0.6624    0.6688       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        },
+        {
+          "model_name": "wavemamba_default",
+          "seed": 777,
+          "params_M_total": 0.196738,
+          "params_M_trainable": 0.196738,
+          "best_epoch": 76,
+          "best_val_macro_f1": 0.9794231763291794,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/wavemamba_default_seed777_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.9697336561743342,
+          "test_id_macro_f1": 0.9679472752079546,
+          "test_id_fall_recall": 0.9774193548387097,
+          "test_id_nonfall_recall": 0.9651162790697675,
+          "test_id_confusion_matrix": [
+            [
+              303,
+              7
+            ],
+            [
+              18,
+              498
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.9439252336448598,
+              "recall": 0.9774193548387097,
+              "f1-score": 0.9603803486529319,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.9861386138613861,
+              "recall": 0.9651162790697675,
+              "f1-score": 0.9755142017629774,
+              "support": 516.0
+            },
+            "accuracy": 0.9697336561743342,
+            "macro avg": {
+              "precision": 0.965031923753123,
+              "recall": 0.9712678169542386,
+              "f1-score": 0.9679472752079546,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.970295819833392,
+              "recall": 0.9697336561743342,
+              "f1-score": 0.969834426382694,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.9439    0.9774    0.9604       310\n     Nonfall     0.9861    0.9651    0.9755       516\n\n    accuracy                         0.9697       826\n   macro avg     0.9650    0.9713    0.9679       826\nweighted avg     0.9703    0.9697    0.9698       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.6494345718901454,
+          "test_cross_env_macro_f1": 0.6342812802047457,
+          "test_cross_env_fall_recall": 0.6683544303797468,
+          "test_cross_env_nonfall_recall": 0.6160714285714286,
+          "test_cross_env_confusion_matrix": [
+            [
+              264,
+              131
+            ],
+            [
+              86,
+              138
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.7542857142857143,
+              "recall": 0.6683544303797468,
+              "f1-score": 0.7087248322147651,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.5130111524163569,
+              "recall": 0.6160714285714286,
+              "f1-score": 0.5598377281947262,
+              "support": 224.0
+            },
+            "accuracy": 0.6494345718901454,
+            "macro avg": {
+              "precision": 0.6336484333510356,
+              "recall": 0.6422129294755877,
+              "f1-score": 0.6342812802047457,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.6669747258224897,
+              "recall": 0.6494345718901454,
+              "f1-score": 0.6548464617777883,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.7543    0.6684    0.7087       395\n     Nonfall     0.5130    0.6161    0.5598       224\n\n    accuracy                         0.6494       619\n   macro avg     0.6336    0.6422    0.6343       619\nweighted avg     0.6670    0.6494    0.6548       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        }
+      ],
+      "aggregate": {
+        "seed_mean": 1274.6,
+        "seed_std": 1280.7670514187973,
+        "params_M_total_mean": 0.196738,
+        "params_M_total_std": 0.0,
+        "params_M_trainable_mean": 0.196738,
+        "params_M_trainable_std": 0.0,
+        "best_epoch_mean": 82.4,
+        "best_epoch_std": 22.294393914165955,
+        "best_val_macro_f1_mean": 0.9799134526322889,
+        "best_val_macro_f1_std": 0.0013631186968183096,
+        "use_ema_mean": 1.0,
+        "use_ema_std": 0.0,
+        "ema_decay_mean": 0.999,
+        "ema_decay_std": 0.0,
+        "test_id_accuracy_mean": 0.9726392251815981,
+        "test_id_accuracy_std": 0.0030242121057619214,
+        "test_id_macro_f1_mean": 0.9710339607094086,
+        "test_id_macro_f1_std": 0.0031759362933449996,
+        "test_id_fall_recall_mean": 0.9819354838709677,
+        "test_id_fall_recall_std": 0.003289690008769538,
+        "test_id_nonfall_recall_mean": 0.9670542635658915,
+        "test_id_nonfall_recall_std": 0.0042459112984896165,
+        "test_cross_env_accuracy_mean": 0.6655896607431341,
+        "test_cross_env_accuracy_std": 0.017005101605093092,
+        "test_cross_env_macro_f1_mean": 0.6522996599673764,
+        "test_cross_env_macro_f1_std": 0.013681812143483107,
+        "test_cross_env_fall_recall_mean": 0.6724050632911392,
+        "test_cross_env_fall_recall_std": 0.04192453983693053,
+        "test_cross_env_nonfall_recall_mean": 0.6535714285714286,
+        "test_cross_env_nonfall_recall_std": 0.039184121888378005
+      }
+    },
+    "wavemamba_interp_1x1": {
+      "model_config": {
+        "type": "wavemamba",
+        "num_classes": 2,
+        "in_chans": 1,
+        "depths": [
+          1,
+          1
+        ],
+        "dims": [
+          32,
+          64
+        ],
+        "patch_size": 2,
+        "stage1_main_channels": 32,
+        "stage1_aux_channels": 32,
+        "stage2_main_channels": 64,
+        "stage2_aux_channels": 64,
+        "use_stem_se": true,
+        "use_block_se": false,
+        "use_main_proj_bn": true,
+        "use_aux_proj_bn": true,
+        "use_fusion_proj_bn": true,
+        "use_upsample_bn": true,
+        "use_wavelet": true,
+        "branch_mode": "dual",
+        "recon_type": "interp_1x1",
+        "aux_variant": "mkconv"
+      },
+      "per_seed": [
+        {
+          "model_name": "wavemamba_interp_1x1",
+          "seed": 42,
+          "params_M_total": 0.165922,
+          "params_M_trainable": 0.165922,
+          "best_epoch": 99,
+          "best_val_macro_f1": 0.9767926825461243,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/wavemamba_interp_1x1_seed42_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.9673123486682809,
+          "test_id_macro_f1": 0.9654247031519612,
+          "test_id_fall_recall": 0.9774193548387097,
+          "test_id_nonfall_recall": 0.9612403100775194,
+          "test_id_confusion_matrix": [
+            [
+              303,
+              7
+            ],
+            [
+              20,
+              496
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.9380804953560371,
+              "recall": 0.9774193548387097,
+              "f1-score": 0.957345971563981,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.9860834990059643,
+              "recall": 0.9612403100775194,
+              "f1-score": 0.9735034347399412,
+              "support": 516.0
+            },
+            "accuracy": 0.9673123486682809,
+            "macro avg": {
+              "precision": 0.9620819971810006,
+              "recall": 0.9693298324581145,
+              "f1-score": 0.9654247031519612,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.9680678438831103,
+              "recall": 0.9673123486682809,
+              "f1-score": 0.9674394957755978,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.9381    0.9774    0.9573       310\n     Nonfall     0.9861    0.9612    0.9735       516\n\n    accuracy                         0.9673       826\n   macro avg     0.9621    0.9693    0.9654       826\nweighted avg     0.9681    0.9673    0.9674       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.6736672051696284,
+          "test_cross_env_macro_f1": 0.6512306422100237,
+          "test_cross_env_fall_recall": 0.7265822784810126,
+          "test_cross_env_nonfall_recall": 0.5803571428571429,
+          "test_cross_env_confusion_matrix": [
+            [
+              287,
+              108
+            ],
+            [
+              94,
+              130
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.7532808398950132,
+              "recall": 0.7265822784810126,
+              "f1-score": 0.7396907216494846,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.5462184873949579,
+              "recall": 0.5803571428571429,
+              "f1-score": 0.5627705627705628,
+              "support": 224.0
+            },
+            "accuracy": 0.6736672051696284,
+            "macro avg": {
+              "precision": 0.6497496636449855,
+              "recall": 0.6534697106690778,
+              "f1-score": 0.6512306422100237,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.6783503601534746,
+              "recall": 0.6736672051696284,
+              "f1-score": 0.6756679177902302,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.7533    0.7266    0.7397       395\n     Nonfall     0.5462    0.5804    0.5628       224\n\n    accuracy                         0.6737       619\n   macro avg     0.6497    0.6535    0.6512       619\nweighted avg     0.6784    0.6737    0.6757       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        },
+        {
+          "model_name": "wavemamba_interp_1x1",
+          "seed": 123,
+          "params_M_total": 0.165922,
+          "params_M_trainable": 0.165922,
+          "best_epoch": 116,
+          "best_val_macro_f1": 0.9781234664070106,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/wavemamba_interp_1x1_seed123_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.9745762711864406,
+          "test_id_macro_f1": 0.973009686077722,
+          "test_id_fall_recall": 0.9774193548387097,
+          "test_id_nonfall_recall": 0.9728682170542635,
+          "test_id_confusion_matrix": [
+            [
+              303,
+              7
+            ],
+            [
+              14,
+              502
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.9558359621451105,
+              "recall": 0.9774193548387097,
+              "f1-score": 0.9665071770334929,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.9862475442043221,
+              "recall": 0.9728682170542635,
+              "f1-score": 0.9795121951219512,
+              "support": 516.0
+            },
+            "accuracy": 0.9745762711864406,
+            "macro avg": {
+              "precision": 0.9710417531747163,
+              "recall": 0.9751437859464867,
+              "f1-score": 0.973009686077722,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.9748339964581288,
+              "recall": 0.9745762711864406,
+              "f1-score": 0.9746313771952901,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.9558    0.9774    0.9665       310\n     Nonfall     0.9862    0.9729    0.9795       516\n\n    accuracy                         0.9746       826\n   macro avg     0.9710    0.9751    0.9730       826\nweighted avg     0.9748    0.9746    0.9746       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.6995153473344103,
+          "test_cross_env_macro_f1": 0.685872530830514,
+          "test_cross_env_fall_recall": 0.7113924050632912,
+          "test_cross_env_nonfall_recall": 0.6785714285714286,
+          "test_cross_env_confusion_matrix": [
+            [
+              281,
+              114
+            ],
+            [
+              72,
+              152
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.7960339943342776,
+              "recall": 0.7113924050632912,
+              "f1-score": 0.7513368983957219,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.5714285714285714,
+              "recall": 0.6785714285714286,
+              "f1-score": 0.6204081632653061,
+              "support": 224.0
+            },
+            "accuracy": 0.6995153473344103,
+            "macro avg": {
+              "precision": 0.6837312828814245,
+              "recall": 0.6949819168173599,
+              "f1-score": 0.685872530830514,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.7147551337028104,
+              "recall": 0.6995153473344103,
+              "f1-score": 0.7039571945682369,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.7960    0.7114    0.7513       395\n     Nonfall     0.5714    0.6786    0.6204       224\n\n    accuracy                         0.6995       619\n   macro avg     0.6837    0.6950    0.6859       619\nweighted avg     0.7148    0.6995    0.7040       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        },
+        {
+          "model_name": "wavemamba_interp_1x1",
+          "seed": 2024,
+          "params_M_total": 0.165922,
+          "params_M_trainable": 0.165922,
+          "best_epoch": 105,
+          "best_val_macro_f1": 0.9794486464968153,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/wavemamba_interp_1x1_seed2024_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.9733656174334141,
+          "test_id_macro_f1": 0.9718776308621799,
+          "test_id_fall_recall": 0.9903225806451613,
+          "test_id_nonfall_recall": 0.9631782945736435,
+          "test_id_confusion_matrix": [
+            [
+              307,
+              3
+            ],
+            [
+              19,
+              497
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.941717791411043,
+              "recall": 0.9903225806451613,
+              "f1-score": 0.9654088050314465,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.994,
+              "recall": 0.9631782945736435,
+              "f1-score": 0.9783464566929134,
+              "support": 516.0
+            },
+            "accuracy": 0.9733656174334141,
+            "macro avg": {
+              "precision": 0.9678588957055214,
+              "recall": 0.9767504376094024,
+              "f1-score": 0.9718776308621799,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.9743783478661299,
+              "recall": 0.9733656174334141,
+              "f1-score": 0.9734909215657286,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.9417    0.9903    0.9654       310\n     Nonfall     0.9940    0.9632    0.9783       516\n\n    accuracy                         0.9734       826\n   macro avg     0.9679    0.9768    0.9719       826\nweighted avg     0.9744    0.9734    0.9735       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.6849757673667205,
+          "test_cross_env_macro_f1": 0.6761831434419743,
+          "test_cross_env_fall_recall": 0.6658227848101266,
+          "test_cross_env_nonfall_recall": 0.71875,
+          "test_cross_env_confusion_matrix": [
+            [
+              263,
+              132
+            ],
+            [
+              63,
+              161
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.8067484662576687,
+              "recall": 0.6658227848101266,
+              "f1-score": 0.7295423023578363,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.5494880546075085,
+              "recall": 0.71875,
+              "f1-score": 0.6228239845261122,
+              "support": 224.0
+            },
+            "accuracy": 0.6849757673667205,
+            "macro avg": {
+              "precision": 0.6781182604325886,
+              "recall": 0.6922863924050633,
+              "f1-score": 0.6761831434419743,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.7136526145458175,
+              "recall": 0.6849757673667205,
+              "f1-score": 0.6909237188452253,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.8067    0.6658    0.7295       395\n     Nonfall     0.5495    0.7188    0.6228       224\n\n    accuracy                         0.6850       619\n   macro avg     0.6781    0.6923    0.6762       619\nweighted avg     0.7137    0.6850    0.6909       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        },
+        {
+          "model_name": "wavemamba_interp_1x1",
+          "seed": 3407,
+          "params_M_total": 0.165922,
+          "params_M_trainable": 0.165922,
+          "best_epoch": 70,
+          "best_val_macro_f1": 0.9793712733743327,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/wavemamba_interp_1x1_seed3407_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.9794188861985472,
+          "test_id_macro_f1": 0.9782041471414091,
+          "test_id_fall_recall": 0.9903225806451613,
+          "test_id_nonfall_recall": 0.9728682170542635,
+          "test_id_confusion_matrix": [
+            [
+              307,
+              3
+            ],
+            [
+              14,
+              502
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.956386292834891,
+              "recall": 0.9903225806451613,
+              "f1-score": 0.9730586370839936,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.994059405940594,
+              "recall": 0.9728682170542635,
+              "f1-score": 0.9833496571988247,
+              "support": 516.0
+            },
+            "accuracy": 0.9794188861985472,
+            "macro avg": {
+              "precision": 0.9752228493877425,
+              "recall": 0.9815953988497124,
+              "f1-score": 0.9782041471414091,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.979920586252013,
+              "recall": 0.9794188861985472,
+              "f1-score": 0.9794874099402321,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.9564    0.9903    0.9731       310\n     Nonfall     0.9941    0.9729    0.9833       516\n\n    accuracy                         0.9794       826\n   macro avg     0.9752    0.9816    0.9782       826\nweighted avg     0.9799    0.9794    0.9795       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.6995153473344103,
+          "test_cross_env_macro_f1": 0.685872530830514,
+          "test_cross_env_fall_recall": 0.7113924050632912,
+          "test_cross_env_nonfall_recall": 0.6785714285714286,
+          "test_cross_env_confusion_matrix": [
+            [
+              281,
+              114
+            ],
+            [
+              72,
+              152
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.7960339943342776,
+              "recall": 0.7113924050632912,
+              "f1-score": 0.7513368983957219,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.5714285714285714,
+              "recall": 0.6785714285714286,
+              "f1-score": 0.6204081632653061,
+              "support": 224.0
+            },
+            "accuracy": 0.6995153473344103,
+            "macro avg": {
+              "precision": 0.6837312828814245,
+              "recall": 0.6949819168173599,
+              "f1-score": 0.685872530830514,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.7147551337028104,
+              "recall": 0.6995153473344103,
+              "f1-score": 0.7039571945682369,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.7960    0.7114    0.7513       395\n     Nonfall     0.5714    0.6786    0.6204       224\n\n    accuracy                         0.6995       619\n   macro avg     0.6837    0.6950    0.6859       619\nweighted avg     0.7148    0.6995    0.7040       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        },
+        {
+          "model_name": "wavemamba_interp_1x1",
+          "seed": 777,
+          "params_M_total": 0.165922,
+          "params_M_trainable": 0.165922,
+          "best_epoch": 82,
+          "best_val_macro_f1": 0.9755497565725414,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/wavemamba_interp_1x1_seed777_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.9697336561743342,
+          "test_id_macro_f1": 0.96786867390205,
+          "test_id_fall_recall": 0.9709677419354839,
+          "test_id_nonfall_recall": 0.9689922480620154,
+          "test_id_confusion_matrix": [
+            [
+              301,
+              9
+            ],
+            [
+              16,
+              500
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.9495268138801262,
+              "recall": 0.9709677419354839,
+              "f1-score": 0.960127591706539,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.9823182711198428,
+              "recall": 0.9689922480620154,
+              "f1-score": 0.975609756097561,
+              "support": 516.0
+            },
+            "accuracy": 0.9697336561743342,
+            "macro avg": {
+              "precision": 0.9659225424999844,
+              "recall": 0.9699799949987497,
+              "f1-score": 0.96786867390205,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.9700115498797555,
+              "recall": 0.9697336561743342,
+              "f1-score": 0.9697992585658215,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.9495    0.9710    0.9601       310\n     Nonfall     0.9823    0.9690    0.9756       516\n\n    accuracy                         0.9697       826\n   macro avg     0.9659    0.9700    0.9679       826\nweighted avg     0.9700    0.9697    0.9698       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.6817447495961227,
+          "test_cross_env_macro_f1": 0.6721301337635276,
+          "test_cross_env_fall_recall": 0.6683544303797468,
+          "test_cross_env_nonfall_recall": 0.7053571428571429,
+          "test_cross_env_confusion_matrix": [
+            [
+              264,
+              131
+            ],
+            [
+              66,
+              158
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.8,
+              "recall": 0.6683544303797468,
+              "f1-score": 0.7282758620689656,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.5467128027681661,
+              "recall": 0.7053571428571429,
+              "f1-score": 0.6159844054580896,
+              "support": 224.0
+            },
+            "accuracy": 0.6817447495961227,
+            "macro avg": {
+              "precision": 0.6733564013840831,
+              "recall": 0.6868557866184448,
+              "f1-score": 0.6721301337635276,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.7083419512440536,
+              "recall": 0.6817447495961227,
+              "f1-score": 0.6876405045878086,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.8000    0.6684    0.7283       395\n     Nonfall     0.5467    0.7054    0.6160       224\n\n    accuracy                         0.6817       619\n   macro avg     0.6734    0.6869    0.6721       619\nweighted avg     0.7083    0.6817    0.6876       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        }
+      ],
+      "aggregate": {
+        "seed_mean": 1274.6,
+        "seed_std": 1280.7670514187973,
+        "params_M_total_mean": 0.165922,
+        "params_M_total_std": 0.0,
+        "params_M_trainable_mean": 0.165922,
+        "params_M_trainable_std": 0.0,
+        "best_epoch_mean": 94.4,
+        "best_epoch_std": 16.426807358704856,
+        "best_val_macro_f1_mean": 0.9778571650793648,
+        "best_val_macro_f1_std": 0.0015068848999855292,
+        "use_ema_mean": 1.0,
+        "use_ema_std": 0.0,
+        "ema_decay_mean": 0.999,
+        "ema_decay_std": 0.0,
+        "test_id_accuracy_mean": 0.9728813559322034,
+        "test_id_accuracy_std": 0.0041657749477204,
+        "test_id_macro_f1_mean": 0.9712769682270644,
+        "test_id_macro_f1_std": 0.0044094079234689105,
+        "test_id_fall_recall_mean": 0.9812903225806452,
+        "test_id_fall_recall_std": 0.007741935483870988,
+        "test_id_nonfall_recall_mean": 0.9678294573643411,
+        "test_id_nonfall_recall_std": 0.004841083719688638,
+        "test_cross_env_accuracy_mean": 0.6878836833602585,
+        "test_cross_env_accuracy_std": 0.010186677072978653,
+        "test_cross_env_macro_f1_mean": 0.6742577962153107,
+        "test_cross_env_macro_f1_std": 0.012714463035443999,
+        "test_cross_env_fall_recall_mean": 0.6967088607594937,
+        "test_cross_env_fall_recall_std": 0.024825621614443065,
+        "test_cross_env_nonfall_recall_mean": 0.6723214285714286,
+        "test_cross_env_nonfall_recall_std": 0.0485438472109578
+      }
+    },
+    "resnet18": {
+      "model_config": {
+        "type": "resnet18",
+        "num_classes": 2,
+        "in_chans": 1
+      },
+      "per_seed": [
+        {
+          "model_name": "resnet18",
+          "seed": 42,
+          "params_M_total": 11.171266,
+          "params_M_trainable": 11.171266,
+          "best_epoch": 65,
+          "best_val_macro_f1": 0.9845673822468846,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/resnet18_seed42_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.9806295399515739,
+          "test_id_macro_f1": 0.9794986348969967,
+          "test_id_fall_recall": 0.9935483870967742,
+          "test_id_nonfall_recall": 0.9728682170542635,
+          "test_id_confusion_matrix": [
+            [
+              308,
+              2
+            ],
+            [
+              14,
+              502
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.9565217391304348,
+              "recall": 0.9935483870967742,
+              "f1-score": 0.9746835443037974,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.996031746031746,
+              "recall": 0.9728682170542635,
+              "f1-score": 0.984313725490196,
+              "support": 516.0
+            },
+            "accuracy": 0.9806295399515739,
+            "macro avg": {
+              "precision": 0.9762767425810904,
+              "recall": 0.9832083020755189,
+              "f1-score": 0.9794986348969967,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.98120353520922,
+              "recall": 0.9806295399515739,
+              "f1-score": 0.9806994928415478,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.9565    0.9935    0.9747       310\n     Nonfall     0.9960    0.9729    0.9843       516\n\n    accuracy                         0.9806       826\n   macro avg     0.9763    0.9832    0.9795       826\nweighted avg     0.9812    0.9806    0.9807       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.6058158319870759,
+          "test_cross_env_macro_f1": 0.5873333333333333,
+          "test_cross_env_fall_recall": 0.640506329113924,
+          "test_cross_env_nonfall_recall": 0.5446428571428571,
+          "test_cross_env_confusion_matrix": [
+            [
+              253,
+              142
+            ],
+            [
+              102,
+              122
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.7126760563380282,
+              "recall": 0.640506329113924,
+              "f1-score": 0.6746666666666666,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.4621212121212121,
+              "recall": 0.5446428571428571,
+              "f1-score": 0.5,
+              "support": 224.0
+            },
+            "accuracy": 0.6058158319870759,
+            "macro avg": {
+              "precision": 0.5873986342296201,
+              "recall": 0.5925745931283906,
+              "f1-score": 0.5873333333333333,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.6220067750705536,
+              "recall": 0.6058158319870759,
+              "f1-score": 0.6114593430263866,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.7127    0.6405    0.6747       395\n     Nonfall     0.4621    0.5446    0.5000       224\n\n    accuracy                         0.6058       619\n   macro avg     0.5874    0.5926    0.5873       619\nweighted avg     0.6220    0.6058    0.6115       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        },
+        {
+          "model_name": "resnet18",
+          "seed": 123,
+          "params_M_total": 11.171266,
+          "params_M_trainable": 11.171266,
+          "best_epoch": 71,
+          "best_val_macro_f1": 0.985862216516902,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/resnet18_seed123_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.9782082324455206,
+          "test_id_macro_f1": 0.9769907888872382,
+          "test_id_fall_recall": 0.9967741935483871,
+          "test_id_nonfall_recall": 0.9670542635658915,
+          "test_id_confusion_matrix": [
+            [
+              309,
+              1
+            ],
+            [
+              17,
+              499
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.9478527607361963,
+              "recall": 0.9967741935483871,
+              "f1-score": 0.9716981132075472,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.998,
+              "recall": 0.9670542635658915,
+              "f1-score": 0.9822834645669292,
+              "support": 516.0
+            },
+            "accuracy": 0.9782082324455206,
+            "macro avg": {
+              "precision": 0.9729263803680981,
+              "recall": 0.9819142285571394,
+              "f1-score": 0.9769907888872382,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.9791796075402189,
+              "recall": 0.9782082324455206,
+              "f1-score": 0.9783107540083235,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.9479    0.9968    0.9717       310\n     Nonfall     0.9980    0.9671    0.9823       516\n\n    accuracy                         0.9782       826\n   macro avg     0.9729    0.9819    0.9770       826\nweighted avg     0.9792    0.9782    0.9783       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.6478190630048465,
+          "test_cross_env_macro_f1": 0.6236053465434909,
+          "test_cross_env_fall_recall": 0.7063291139240506,
+          "test_cross_env_nonfall_recall": 0.5446428571428571,
+          "test_cross_env_confusion_matrix": [
+            [
+              279,
+              116
+            ],
+            [
+              102,
+              122
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.7322834645669292,
+              "recall": 0.7063291139240506,
+              "f1-score": 0.7190721649484536,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.5126050420168067,
+              "recall": 0.5446428571428571,
+              "f1-score": 0.5281385281385281,
+              "support": 224.0
+            },
+            "accuracy": 0.6478190630048465,
+            "macro avg": {
+              "precision": 0.6224442532918679,
+              "recall": 0.6254859855334538,
+              "f1-score": 0.6236053465434909,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.6527875572143808,
+              "recall": 0.6478190630048465,
+              "f1-score": 0.6499782479122286,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.7323    0.7063    0.7191       395\n     Nonfall     0.5126    0.5446    0.5281       224\n\n    accuracy                         0.6478       619\n   macro avg     0.6224    0.6255    0.6236       619\nweighted avg     0.6528    0.6478    0.6500       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        },
+        {
+          "model_name": "resnet18",
+          "seed": 2024,
+          "params_M_total": 11.171266,
+          "params_M_trainable": 11.171266,
+          "best_epoch": 65,
+          "best_val_macro_f1": 0.9858796177581757,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/resnet18_seed2024_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.9794188861985472,
+          "test_id_macro_f1": 0.9782303686512348,
+          "test_id_fall_recall": 0.9935483870967742,
+          "test_id_nonfall_recall": 0.9709302325581395,
+          "test_id_confusion_matrix": [
+            [
+              308,
+              2
+            ],
+            [
+              15,
+              501
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.9535603715170279,
+              "recall": 0.9935483870967742,
+              "f1-score": 0.9731437598736177,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.9960238568588469,
+              "recall": 0.9709302325581395,
+              "f1-score": 0.9833169774288518,
+              "support": 516.0
+            },
+            "accuracy": 0.9794188861985472,
+            "macro avg": {
+              "precision": 0.9747921141879374,
+              "recall": 0.9822393098274569,
+              "f1-score": 0.9782303686512348,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.9800871977111908,
+              "recall": 0.9794188861985472,
+              "f1-score": 0.9794989417846357,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.9536    0.9935    0.9731       310\n     Nonfall     0.9960    0.9709    0.9833       516\n\n    accuracy                         0.9794       826\n   macro avg     0.9748    0.9822    0.9782       826\nweighted avg     0.9801    0.9794    0.9795       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.6187399030694669,
+          "test_cross_env_macro_f1": 0.5839485076327182,
+          "test_cross_env_fall_recall": 0.7113924050632912,
+          "test_cross_env_nonfall_recall": 0.45535714285714285,
+          "test_cross_env_confusion_matrix": [
+            [
+              281,
+              114
+            ],
+            [
+              122,
+              102
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.6972704714640199,
+              "recall": 0.7113924050632912,
+              "f1-score": 0.7042606516290727,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.4722222222222222,
+              "recall": 0.45535714285714285,
+              "f1-score": 0.4636363636363636,
+              "support": 224.0
+            },
+            "accuracy": 0.6187399030694669,
+            "macro avg": {
+              "precision": 0.5847463468431211,
+              "recall": 0.583374773960217,
+              "f1-score": 0.5839485076327182,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.6158313634992983,
+              "recall": 0.6187399030694669,
+              "f1-score": 0.6171849803683831,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.6973    0.7114    0.7043       395\n     Nonfall     0.4722    0.4554    0.4636       224\n\n    accuracy                         0.6187       619\n   macro avg     0.5847    0.5834    0.5839       619\nweighted avg     0.6158    0.6187    0.6172       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        },
+        {
+          "model_name": "resnet18",
+          "seed": 3407,
+          "params_M_total": 11.171266,
+          "params_M_trainable": 11.171266,
+          "best_epoch": 86,
+          "best_val_macro_f1": 0.9910143022097482,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/resnet18_seed3407_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.9806295399515739,
+          "test_id_macro_f1": 0.9794986348969967,
+          "test_id_fall_recall": 0.9935483870967742,
+          "test_id_nonfall_recall": 0.9728682170542635,
+          "test_id_confusion_matrix": [
+            [
+              308,
+              2
+            ],
+            [
+              14,
+              502
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.9565217391304348,
+              "recall": 0.9935483870967742,
+              "f1-score": 0.9746835443037974,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.996031746031746,
+              "recall": 0.9728682170542635,
+              "f1-score": 0.984313725490196,
+              "support": 516.0
+            },
+            "accuracy": 0.9806295399515739,
+            "macro avg": {
+              "precision": 0.9762767425810904,
+              "recall": 0.9832083020755189,
+              "f1-score": 0.9794986348969967,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.98120353520922,
+              "recall": 0.9806295399515739,
+              "f1-score": 0.9806994928415478,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.9565    0.9935    0.9747       310\n     Nonfall     0.9960    0.9729    0.9843       516\n\n    accuracy                         0.9806       826\n   macro avg     0.9763    0.9832    0.9795       826\nweighted avg     0.9812    0.9806    0.9807       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.5961227786752827,
+          "test_cross_env_macro_f1": 0.5733529632325371,
+          "test_cross_env_fall_recall": 0.6481012658227848,
+          "test_cross_env_nonfall_recall": 0.5044642857142857,
+          "test_cross_env_confusion_matrix": [
+            [
+              256,
+              139
+            ],
+            [
+              111,
+              113
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.6975476839237057,
+              "recall": 0.6481012658227848,
+              "f1-score": 0.6719160104986877,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.44841269841269843,
+              "recall": 0.5044642857142857,
+              "f1-score": 0.47478991596638653,
+              "support": 224.0
+            },
+            "accuracy": 0.5961227786752827,
+            "macro avg": {
+              "precision": 0.5729801911682021,
+              "recall": 0.5762827757685353,
+              "f1-score": 0.5733529632325371,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.6073922125917742,
+              "recall": 0.5961227786752827,
+              "f1-score": 0.6005812040766595,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.6975    0.6481    0.6719       395\n     Nonfall     0.4484    0.5045    0.4748       224\n\n    accuracy                         0.5961       619\n   macro avg     0.5730    0.5763    0.5734       619\nweighted avg     0.6074    0.5961    0.6006       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        },
+        {
+          "model_name": "resnet18",
+          "seed": 777,
+          "params_M_total": 11.171266,
+          "params_M_trainable": 11.171266,
+          "best_epoch": 86,
+          "best_val_macro_f1": 0.98069717624148,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/resnet18_seed777_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.9757869249394673,
+          "test_id_macro_f1": 0.974403946626341,
+          "test_id_fall_recall": 0.9903225806451613,
+          "test_id_nonfall_recall": 0.9670542635658915,
+          "test_id_confusion_matrix": [
+            [
+              307,
+              3
+            ],
+            [
+              17,
+              499
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.9475308641975309,
+              "recall": 0.9903225806451613,
+              "f1-score": 0.9684542586750788,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.9940239043824701,
+              "recall": 0.9670542635658915,
+              "f1-score": 0.9803536345776032,
+              "support": 516.0
+            },
+            "accuracy": 0.9757869249394673,
+            "macro avg": {
+              "precision": 0.9707773842900005,
+              "recall": 0.9786884221055264,
+              "f1-score": 0.974403946626341,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.9765749425697205,
+              "recall": 0.9757869249394673,
+              "f1-score": 0.9758877671081329,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.9475    0.9903    0.9685       310\n     Nonfall     0.9940    0.9671    0.9804       516\n\n    accuracy                         0.9758       826\n   macro avg     0.9708    0.9787    0.9744       826\nweighted avg     0.9766    0.9758    0.9759       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.6025848142164781,
+          "test_cross_env_macro_f1": 0.5745110092768526,
+          "test_cross_env_fall_recall": 0.6734177215189874,
+          "test_cross_env_nonfall_recall": 0.47767857142857145,
+          "test_cross_env_confusion_matrix": [
+            [
+              266,
+              129
+            ],
+            [
+              117,
+              107
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.6945169712793734,
+              "recall": 0.6734177215189874,
+              "f1-score": 0.6838046272493573,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.4533898305084746,
+              "recall": 0.47767857142857145,
+              "f1-score": 0.4652173913043478,
+              "support": 224.0
+            },
+            "accuracy": 0.6025848142164781,
+            "macro avg": {
+              "precision": 0.573953400893924,
+              "recall": 0.5755481464737794,
+              "f1-score": 0.5745110092768526,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.6072593306773034,
+              "recall": 0.6025848142164781,
+              "f1-score": 0.6047035919477707,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.6945    0.6734    0.6838       395\n     Nonfall     0.4534    0.4777    0.4652       224\n\n    accuracy                         0.6026       619\n   macro avg     0.5740    0.5755    0.5745       619\nweighted avg     0.6073    0.6026    0.6047       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        }
+      ],
+      "aggregate": {
+        "seed_mean": 1274.6,
+        "seed_std": 1280.7670514187973,
+        "params_M_total_mean": 11.171266,
+        "params_M_total_std": 0.0,
+        "params_M_trainable_mean": 11.171266,
+        "params_M_trainable_std": 0.0,
+        "best_epoch_mean": 74.6,
+        "best_epoch_std": 9.562426470305537,
+        "best_val_macro_f1_mean": 0.9856041389946381,
+        "best_val_macro_f1_std": 0.003303498345260116,
+        "use_ema_mean": 1.0,
+        "use_ema_std": 0.0,
+        "ema_decay_mean": 0.999,
+        "ema_decay_std": 0.0,
+        "test_id_accuracy_mean": 0.9789346246973366,
+        "test_id_accuracy_std": 0.0018119406231350995,
+        "test_id_macro_f1_mean": 0.9777244747917615,
+        "test_id_macro_f1_std": 0.0019034399942691315,
+        "test_id_fall_recall_mean": 0.9935483870967742,
+        "test_id_fall_recall_std": 0.002040179135592508,
+        "test_id_nonfall_recall_mean": 0.9701550387596899,
+        "test_id_nonfall_recall_std": 0.0026288100709787386,
+        "test_cross_env_accuracy_mean": 0.6142164781906301,
+        "test_cross_env_accuracy_std": 0.018345808809794358,
+        "test_cross_env_macro_f1_mean": 0.5885502320037864,
+        "test_cross_env_macro_f1_std": 0.018327981437328417,
+        "test_cross_env_fall_recall_mean": 0.6759493670886076,
+        "test_cross_env_fall_recall_std": 0.0290422894171139,
+        "test_cross_env_nonfall_recall_mean": 0.5053571428571428,
+        "test_cross_env_nonfall_recall_std": 0.03564725853156628
+      }
+    },
+    "lstm": {
+      "model_config": {
+        "type": "lstm",
+        "num_classes": 2,
+        "input_size": 232,
+        "hidden_size": 128,
+        "num_layers": 2,
+        "bidirectional": true,
+        "dropout": 0.2
+      },
+      "per_seed": [
+        {
+          "model_name": "lstm",
+          "seed": 42,
+          "params_M_total": 0.766466,
+          "params_M_trainable": 0.766466,
+          "best_epoch": 108,
+          "best_val_macro_f1": 0.9248303866744492,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/lstm_seed42_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.9261501210653753,
+          "test_id_macro_f1": 0.9213027390820163,
+          "test_id_fall_recall": 0.9032258064516129,
+          "test_id_nonfall_recall": 0.939922480620155,
+          "test_id_confusion_matrix": [
+            [
+              280,
+              30
+            ],
+            [
+              31,
+              485
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.9003215434083601,
+              "recall": 0.9032258064516129,
+              "f1-score": 0.9017713365539453,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.941747572815534,
+              "recall": 0.939922480620155,
+              "f1-score": 0.9408341416100873,
+              "support": 516.0
+            },
+            "accuracy": 0.9261501210653753,
+            "macro avg": {
+              "precision": 0.921034558111947,
+              "recall": 0.921574143535884,
+              "f1-score": 0.9213027390820163,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.9262002736433501,
+              "recall": 0.9261501210653753,
+              "f1-score": 0.9261737668311478,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.9003    0.9032    0.9018       310\n     Nonfall     0.9417    0.9399    0.9408       516\n\n    accuracy                         0.9262       826\n   macro avg     0.9210    0.9216    0.9213       826\nweighted avg     0.9262    0.9262    0.9262       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.6623586429725363,
+          "test_cross_env_macro_f1": 0.6406930013858916,
+          "test_cross_env_fall_recall": 0.7113924050632912,
+          "test_cross_env_nonfall_recall": 0.5758928571428571,
+          "test_cross_env_confusion_matrix": [
+            [
+              281,
+              114
+            ],
+            [
+              95,
+              129
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.7473404255319149,
+              "recall": 0.7113924050632912,
+              "f1-score": 0.728923476005188,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.5308641975308642,
+              "recall": 0.5758928571428571,
+              "f1-score": 0.5524625267665952,
+              "support": 224.0
+            },
+            "accuracy": 0.6623586429725363,
+            "macro avg": {
+              "precision": 0.6391023115313896,
+              "recall": 0.6436426311030741,
+              "f1-score": 0.6406930013858916,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.6690033090985783,
+              "recall": 0.6623586429725363,
+              "f1-score": 0.6650668481708669,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.7473    0.7114    0.7289       395\n     Nonfall     0.5309    0.5759    0.5525       224\n\n    accuracy                         0.6624       619\n   macro avg     0.6391    0.6436    0.6407       619\nweighted avg     0.6690    0.6624    0.6651       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        },
+        {
+          "model_name": "lstm",
+          "seed": 123,
+          "params_M_total": 0.766466,
+          "params_M_trainable": 0.766466,
+          "best_epoch": 68,
+          "best_val_macro_f1": 0.924355569490773,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/lstm_seed123_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.9128329297820823,
+          "test_id_macro_f1": 0.9076320939334638,
+          "test_id_fall_recall": 0.9,
+          "test_id_nonfall_recall": 0.9205426356589147,
+          "test_id_confusion_matrix": [
+            [
+              279,
+              31
+            ],
+            [
+              41,
+              475
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.871875,
+              "recall": 0.9,
+              "f1-score": 0.8857142857142857,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.9387351778656127,
+              "recall": 0.9205426356589147,
+              "f1-score": 0.9295499021526419,
+              "support": 516.0
+            },
+            "accuracy": 0.9128329297820823,
+            "macro avg": {
+              "precision": 0.9053050889328063,
+              "recall": 0.9102713178294574,
+              "f1-score": 0.9076320939334638,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.9136423750346927,
+              "recall": 0.9128329297820823,
+              "f1-score": 0.913098278549869,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.8719    0.9000    0.8857       310\n     Nonfall     0.9387    0.9205    0.9295       516\n\n    accuracy                         0.9128       826\n   macro avg     0.9053    0.9103    0.9076       826\nweighted avg     0.9136    0.9128    0.9131       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.6252019386106623,
+          "test_cross_env_macro_f1": 0.6046905967848492,
+          "test_cross_env_fall_recall": 0.6683544303797468,
+          "test_cross_env_nonfall_recall": 0.5491071428571429,
+          "test_cross_env_confusion_matrix": [
+            [
+              264,
+              131
+            ],
+            [
+              101,
+              123
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.7232876712328767,
+              "recall": 0.6683544303797468,
+              "f1-score": 0.6947368421052632,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.484251968503937,
+              "recall": 0.5491071428571429,
+              "f1-score": 0.5146443514644351,
+              "support": 224.0
+            },
+            "accuracy": 0.6252019386106623,
+            "macro avg": {
+              "precision": 0.6037698198684068,
+              "recall": 0.6087307866184448,
+              "f1-score": 0.6046905967848492,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.6367868676605302,
+              "recall": 0.6252019386106623,
+              "f1-score": 0.6295660538927503,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.7233    0.6684    0.6947       395\n     Nonfall     0.4843    0.5491    0.5146       224\n\n    accuracy                         0.6252       619\n   macro avg     0.6038    0.6087    0.6047       619\nweighted avg     0.6368    0.6252    0.6296       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        },
+        {
+          "model_name": "lstm",
+          "seed": 2024,
+          "params_M_total": 0.766466,
+          "params_M_trainable": 0.766466,
+          "best_epoch": 56,
+          "best_val_macro_f1": 0.9242634043393056,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/lstm_seed2024_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.9213075060532687,
+          "test_id_macro_f1": 0.9168621621412367,
+          "test_id_fall_recall": 0.9193548387096774,
+          "test_id_nonfall_recall": 0.9224806201550387,
+          "test_id_confusion_matrix": [
+            [
+              285,
+              25
+            ],
+            [
+              40,
+              476
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.8769230769230769,
+              "recall": 0.9193548387096774,
+              "f1-score": 0.8976377952755905,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.9500998003992016,
+              "recall": 0.9224806201550387,
+              "f1-score": 0.9360865290068829,
+              "support": 516.0
+            },
+            "accuracy": 0.9213075060532687,
+            "macro avg": {
+              "precision": 0.9135114386611393,
+              "recall": 0.9209177294323581,
+              "f1-score": 0.9168621621412367,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.9226363811769273,
+              "recall": 0.9213075060532687,
+              "f1-score": 0.9216566168317005,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.8769    0.9194    0.8976       310\n     Nonfall     0.9501    0.9225    0.9361       516\n\n    accuracy                         0.9213       826\n   macro avg     0.9135    0.9209    0.9169       826\nweighted avg     0.9226    0.9213    0.9217       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.6962843295638126,
+          "test_cross_env_macro_f1": 0.6692398644807749,
+          "test_cross_env_fall_recall": 0.769620253164557,
+          "test_cross_env_nonfall_recall": 0.5669642857142857,
+          "test_cross_env_confusion_matrix": [
+            [
+              304,
+              91
+            ],
+            [
+              97,
+              127
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.7581047381546134,
+              "recall": 0.769620253164557,
+              "f1-score": 0.7638190954773869,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.5825688073394495,
+              "recall": 0.5669642857142857,
+              "f1-score": 0.5746606334841629,
+              "support": 224.0
+            },
+            "accuracy": 0.6962843295638126,
+            "macro avg": {
+              "precision": 0.6703367727470315,
+              "recall": 0.6682922694394213,
+              "f1-score": 0.6692398644807749,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.6945828504282858,
+              "recall": 0.6962843295638126,
+              "f1-score": 0.6953675680355741,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.7581    0.7696    0.7638       395\n     Nonfall     0.5826    0.5670    0.5747       224\n\n    accuracy                         0.6963       619\n   macro avg     0.6703    0.6683    0.6692       619\nweighted avg     0.6946    0.6963    0.6954       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        },
+        {
+          "model_name": "lstm",
+          "seed": 3407,
+          "params_M_total": 0.766466,
+          "params_M_trainable": 0.766466,
+          "best_epoch": 101,
+          "best_val_macro_f1": 0.9365367578458812,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/lstm_seed3407_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.9297820823244553,
+          "test_id_macro_f1": 0.9255013435509554,
+          "test_id_fall_recall": 0.9193548387096774,
+          "test_id_nonfall_recall": 0.936046511627907,
+          "test_id_confusion_matrix": [
+            [
+              285,
+              25
+            ],
+            [
+              33,
+              483
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.8962264150943396,
+              "recall": 0.9193548387096774,
+              "f1-score": 0.9076433121019108,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.9507874015748031,
+              "recall": 0.936046511627907,
+              "f1-score": 0.943359375,
+              "support": 516.0
+            },
+            "accuracy": 0.9297820823244553,
+            "macro avg": {
+              "precision": 0.9235069083345714,
+              "recall": 0.9277006751687922,
+              "f1-score": 0.9255013435509554,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.9303105180288663,
+              "recall": 0.9297820823244553,
+              "f1-score": 0.9299550414668187,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.8962    0.9194    0.9076       310\n     Nonfall     0.9508    0.9360    0.9434       516\n\n    accuracy                         0.9298       826\n   macro avg     0.9235    0.9277    0.9255       826\nweighted avg     0.9303    0.9298    0.9300       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.6607431340872375,
+          "test_cross_env_macro_f1": 0.6374179943767573,
+          "test_cross_env_fall_recall": 0.7164556962025317,
+          "test_cross_env_nonfall_recall": 0.5625,
+          "test_cross_env_confusion_matrix": [
+            [
+              283,
+              112
+            ],
+            [
+              98,
+              126
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.7427821522309711,
+              "recall": 0.7164556962025317,
+              "f1-score": 0.729381443298969,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.5294117647058824,
+              "recall": 0.5625,
+              "f1-score": 0.5454545454545454,
+              "support": 224.0
+            },
+            "accuracy": 0.6607431340872375,
+            "macro avg": {
+              "precision": 0.6360969584684267,
+              "recall": 0.6394778481012658,
+              "f1-score": 0.6374179943767573,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.6655689586839276,
+              "recall": 0.6607431340872375,
+              "f1-score": 0.6628230828512294,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.7428    0.7165    0.7294       395\n     Nonfall     0.5294    0.5625    0.5455       224\n\n    accuracy                         0.6607       619\n   macro avg     0.6361    0.6395    0.6374       619\nweighted avg     0.6656    0.6607    0.6628       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        },
+        {
+          "model_name": "lstm",
+          "seed": 777,
+          "params_M_total": 0.766466,
+          "params_M_trainable": 0.766466,
+          "best_epoch": 54,
+          "best_val_macro_f1": 0.9070517629407352,
+          "best_checkpoint_path": "./outputs_model_compare_newaug_noabs_all/checkpoints/lstm_seed777_best_ema.pth",
+          "eval_checkpoint_type": "ema_best",
+          "use_ema": 1.0,
+          "ema_decay": 0.999,
+          "test_id_accuracy": 0.910411622276029,
+          "test_id_macro_f1": 0.9052946025174617,
+          "test_id_fall_recall": 0.9032258064516129,
+          "test_id_nonfall_recall": 0.9147286821705426,
+          "test_id_confusion_matrix": [
+            [
+              280,
+              30
+            ],
+            [
+              44,
+              472
+            ]
+          ],
+          "test_id_report_structured": {
+            "Fall": {
+              "precision": 0.8641975308641975,
+              "recall": 0.9032258064516129,
+              "f1-score": 0.8832807570977917,
+              "support": 310.0
+            },
+            "Nonfall": {
+              "precision": 0.9402390438247012,
+              "recall": 0.9147286821705426,
+              "f1-score": 0.9273084479371316,
+              "support": 516.0
+            },
+            "accuracy": 0.910411622276029,
+            "macro avg": {
+              "precision": 0.9022182873444493,
+              "recall": 0.9089772443110777,
+              "f1-score": 0.9052946025174617,
+              "support": 826.0
+            },
+            "weighted avg": {
+              "precision": 0.9117004614787494,
+              "recall": 0.910411622276029,
+              "f1-score": 0.9107847383000912,
+              "support": 826.0
+            }
+          },
+          "test_id_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.8642    0.9032    0.8833       310\n     Nonfall     0.9402    0.9147    0.9273       516\n\n    accuracy                         0.9104       826\n   macro avg     0.9022    0.9090    0.9053       826\nweighted avg     0.9117    0.9104    0.9108       826\n",
+          "test_id_labels_order": [
+            "Fall",
+            "Nonfall"
+          ],
+          "test_cross_env_accuracy": 0.6413570274636511,
+          "test_cross_env_macro_f1": 0.6166990226268576,
+          "test_cross_env_fall_recall": 0.7012658227848101,
+          "test_cross_env_nonfall_recall": 0.5357142857142857,
+          "test_cross_env_confusion_matrix": [
+            [
+              277,
+              118
+            ],
+            [
+              104,
+              120
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Fall": {
+              "precision": 0.7270341207349081,
+              "recall": 0.7012658227848101,
+              "f1-score": 0.7139175257731959,
+              "support": 395.0
+            },
+            "Nonfall": {
+              "precision": 0.5042016806722689,
+              "recall": 0.5357142857142857,
+              "f1-score": 0.5194805194805194,
+              "support": 224.0
+            },
+            "accuracy": 0.6413570274636511,
+            "macro avg": {
+              "precision": 0.6156179007035885,
+              "recall": 0.618490054249548,
+              "f1-score": 0.6166990226268576,
+              "support": 619.0
+            },
+            "weighted avg": {
+              "precision": 0.6463968564796073,
+              "recall": 0.6413570274636511,
+              "f1-score": 0.6435558304427281,
+              "support": 619.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n        Fall     0.7270    0.7013    0.7139       395\n     Nonfall     0.5042    0.5357    0.5195       224\n\n    accuracy                         0.6414       619\n   macro avg     0.6156    0.6185    0.6167       619\nweighted avg     0.6464    0.6414    0.6436       619\n",
+          "test_cross_env_labels_order": [
+            "Fall",
+            "Nonfall"
+          ]
+        }
+      ],
+      "aggregate": {
+        "seed_mean": 1274.6,
+        "seed_std": 1280.7670514187973,
+        "params_M_total_mean": 0.766466,
+        "params_M_total_std": 0.0,
+        "params_M_trainable_mean": 0.766466,
+        "params_M_trainable_std": 0.0,
+        "best_epoch_mean": 77.4,
+        "best_epoch_std": 22.747307532980688,
+        "best_val_macro_f1_mean": 0.9234075762582289,
+        "best_val_macro_f1_std": 0.009418530254684818,
+        "use_ema_mean": 1.0,
+        "use_ema_std": 0.0,
+        "ema_decay_mean": 0.999,
+        "ema_decay_std": 0.0,
+        "test_id_accuracy_mean": 0.9200968523002421,
+        "test_id_accuracy_std": 0.007462970947904358,
+        "test_id_macro_f1_mean": 0.9153185882450268,
+        "test_id_macro_f1_std": 0.007764582048010544,
+        "test_id_fall_recall_mean": 0.9090322580645162,
+        "test_id_fall_recall_std": 0.008510261908563157,
+        "test_id_nonfall_recall_mean": 0.9267441860465117,
+        "test_id_nonfall_recall_std": 0.009604272630514643,
+        "test_cross_env_accuracy_mean": 0.65718901453958,
+        "test_cross_env_accuracy_std": 0.02383956929976959,
+        "test_cross_env_macro_f1_mean": 0.6337480959310261,
+        "test_cross_env_macro_f1_std": 0.022164722684161524,
+        "test_cross_env_fall_recall_mean": 0.7134177215189873,
+        "test_cross_env_fall_recall_std": 0.03271215251688728,
+        "test_cross_env_nonfall_recall_mean": 0.5580357142857143,
+        "test_cross_env_nonfall_recall_std": 0.014117310982894536
+      }
+    }
+  },
+  "ranking_by_test_cross_env_macro_f1": [
+    "wavemamba_interp_1x1",
+    "wavemamba_default",
+    "lstm",
+    "resnet18"
+  ]
+}

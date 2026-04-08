@@ -1,0 +1,418 @@
+{
+  "config": {
+    "data_root": "/mnt/F/tao/跌倒检测/new_data_processed_9to3",
+    "meta_root": "/mnt/F/natsume/project/FINAL/our_data/meta_and_split",
+    "mapping_file": "label_mapping.json",
+    "train_split": "train_id.json",
+    "val_split": "val_id.json",
+    "test_id_split": "test_id.json",
+    "test_cross_env_split": "test_cross_env.json",
+    "eval_mode": "cross_env",
+    "batch_size": 16,
+    "epochs": 120,
+    "lr": 0.001,
+    "warmup_epochs": 5,
+    "weight_decay": 0.01,
+    "target_len": 1200,
+    "target_subcarrier": 114,
+    "input_size": 1026,
+    "num_workers": 0,
+    "seeds": [
+      42,
+      123,
+      2024,
+      3407,
+      777
+    ],
+    "models": [
+      "wavemamba_default"
+    ],
+    "use_ema": false,
+    "ema_decay": null,
+    "best_checkpoint_criterion": "raw_val_macro_f1",
+    "final_eval_checkpoint_type": "raw_best",
+    "final_report_metrics": [
+      "test_id_macro_f1",
+      "test_id_accuracy",
+      "test_cross_env_macro_f1",
+      "test_cross_env_accuracy",
+      "test_id_fall_recall",
+      "test_id_nonfall_recall",
+      "test_cross_env_fall_recall",
+      "test_cross_env_nonfall_recall"
+    ],
+    "model_files": {
+      "wavemamba": "wavemamba.py",
+      "baselines": "baseline_models.py",
+      "dataset": "dataset_loader.py"
+    },
+    "setting": "ourdata: e1+e2 -> train/val/test_id, e3 -> test_cross_env"
+  },
+  "dataset_summary": {
+    "train": {
+      "name": "train",
+      "num_samples": 344,
+      "num_classes": 2
+    },
+    "val": {
+      "name": "val",
+      "num_samples": 147,
+      "num_classes": 2
+    },
+    "test_id": null,
+    "test_cross_env": {
+      "name": "test_cross_env",
+      "num_samples": 176,
+      "num_classes": 2
+    }
+  },
+  "models": {
+    "wavemamba_default": {
+      "model_config": {
+        "type": "wavemamba",
+        "num_classes": 2,
+        "in_chans": 1,
+        "depths": [
+          1,
+          1
+        ],
+        "dims": [
+          32,
+          64
+        ],
+        "patch_size": 2,
+        "stage1_main_channels": 32,
+        "stage1_aux_channels": 32,
+        "stage2_main_channels": 64,
+        "stage2_aux_channels": 64,
+        "use_stem_se": true,
+        "use_block_se": false,
+        "use_main_proj_bn": true,
+        "use_aux_proj_bn": true,
+        "use_fusion_proj_bn": true,
+        "use_upsample_bn": true,
+        "use_wavelet": true,
+        "branch_mode": "dual",
+        "recon_type": "deconv",
+        "aux_variant": "mkconv"
+      },
+      "per_seed": [
+        {
+          "model_name": "wavemamba_default",
+          "seed": 42,
+          "params_M_total": 0.196738,
+          "params_M_trainable": 0.196738,
+          "best_epoch": 112,
+          "best_val_macro_f1": 0.9930937279774489,
+          "best_checkpoint_path": "./outputs_model_compare_ourdata_1/checkpoints/wavemamba_default_seed42_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_cross_env_accuracy": 0.4602272727272727,
+          "test_cross_env_macro_f1": 0.4597912829957029,
+          "test_cross_env_fall_recall": 0.95,
+          "test_cross_env_nonfall_recall": 0.3161764705882353,
+          "test_cross_env_confusion_matrix": [
+            [
+              43,
+              93
+            ],
+            [
+              2,
+              38
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Nonfall": {
+              "precision": 0.9555555555555556,
+              "recall": 0.3161764705882353,
+              "f1-score": 0.47513812154696133,
+              "support": 136.0
+            },
+            "Fall": {
+              "precision": 0.2900763358778626,
+              "recall": 0.95,
+              "f1-score": 0.4444444444444444,
+              "support": 40.0
+            },
+            "accuracy": 0.4602272727272727,
+            "macro avg": {
+              "precision": 0.6228159457167091,
+              "recall": 0.6330882352941176,
+              "f1-score": 0.4597912829957029,
+              "support": 176.0
+            },
+            "weighted avg": {
+              "precision": 0.8043102783560798,
+              "recall": 0.4602272727272727,
+              "f1-score": 0.46816228584184394,
+              "support": 176.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9556    0.3162    0.4751       136\n        Fall     0.2901    0.9500    0.4444        40\n\n    accuracy                         0.4602       176\n   macro avg     0.6228    0.6331    0.4598       176\nweighted avg     0.8043    0.4602    0.4682       176\n",
+          "test_cross_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ]
+        },
+        {
+          "model_name": "wavemamba_default",
+          "seed": 123,
+          "params_M_total": 0.196738,
+          "params_M_trainable": 0.196738,
+          "best_epoch": 103,
+          "best_val_macro_f1": 0.965675057208238,
+          "best_checkpoint_path": "./outputs_model_compare_ourdata_1/checkpoints/wavemamba_default_seed123_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_cross_env_accuracy": 0.7897727272727273,
+          "test_cross_env_macro_f1": 0.7431265038854483,
+          "test_cross_env_fall_recall": 0.8,
+          "test_cross_env_nonfall_recall": 0.7867647058823529,
+          "test_cross_env_confusion_matrix": [
+            [
+              107,
+              29
+            ],
+            [
+              8,
+              32
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Nonfall": {
+              "precision": 0.9304347826086956,
+              "recall": 0.7867647058823529,
+              "f1-score": 0.852589641434263,
+              "support": 136.0
+            },
+            "Fall": {
+              "precision": 0.5245901639344263,
+              "recall": 0.8,
+              "f1-score": 0.6336633663366337,
+              "support": 40.0
+            },
+            "accuracy": 0.7897727272727273,
+            "macro avg": {
+              "precision": 0.727512473271561,
+              "recall": 0.7933823529411765,
+              "f1-score": 0.7431265038854483,
+              "support": 176.0
+            },
+            "weighted avg": {
+              "precision": 0.8381973692736344,
+              "recall": 0.7897727272727273,
+              "f1-score": 0.8028336698211653,
+              "support": 176.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9304    0.7868    0.8526       136\n        Fall     0.5246    0.8000    0.6337        40\n\n    accuracy                         0.7898       176\n   macro avg     0.7275    0.7934    0.7431       176\nweighted avg     0.8382    0.7898    0.8028       176\n",
+          "test_cross_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ]
+        },
+        {
+          "model_name": "wavemamba_default",
+          "seed": 2024,
+          "params_M_total": 0.196738,
+          "params_M_trainable": 0.196738,
+          "best_epoch": 70,
+          "best_val_macro_f1": 0.9930937279774489,
+          "best_checkpoint_path": "./outputs_model_compare_ourdata_1/checkpoints/wavemamba_default_seed2024_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_cross_env_accuracy": 0.7386363636363636,
+          "test_cross_env_macro_f1": 0.7042665108123904,
+          "test_cross_env_fall_recall": 0.875,
+          "test_cross_env_nonfall_recall": 0.6985294117647058,
+          "test_cross_env_confusion_matrix": [
+            [
+              95,
+              41
+            ],
+            [
+              5,
+              35
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Nonfall": {
+              "precision": 0.95,
+              "recall": 0.6985294117647058,
+              "f1-score": 0.8050847457627118,
+              "support": 136.0
+            },
+            "Fall": {
+              "precision": 0.4605263157894737,
+              "recall": 0.875,
+              "f1-score": 0.603448275862069,
+              "support": 40.0
+            },
+            "accuracy": 0.7386363636363636,
+            "macro avg": {
+              "precision": 0.7052631578947368,
+              "recall": 0.7867647058823529,
+              "f1-score": 0.7042665108123904,
+              "support": 176.0
+            },
+            "weighted avg": {
+              "precision": 0.838755980861244,
+              "recall": 0.7386363636363636,
+              "f1-score": 0.7592582753307475,
+              "support": 176.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9500    0.6985    0.8051       136\n        Fall     0.4605    0.8750    0.6034        40\n\n    accuracy                         0.7386       176\n   macro avg     0.7053    0.7868    0.7043       176\nweighted avg     0.8388    0.7386    0.7593       176\n",
+          "test_cross_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ]
+        },
+        {
+          "model_name": "wavemamba_default",
+          "seed": 3407,
+          "params_M_total": 0.196738,
+          "params_M_trainable": 0.196738,
+          "best_epoch": 104,
+          "best_val_macro_f1": 0.9930689801499364,
+          "best_checkpoint_path": "./outputs_model_compare_ourdata_1/checkpoints/wavemamba_default_seed3407_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_cross_env_accuracy": 0.5454545454545454,
+          "test_cross_env_macro_f1": 0.5382395382395382,
+          "test_cross_env_fall_recall": 0.925,
+          "test_cross_env_nonfall_recall": 0.4338235294117647,
+          "test_cross_env_confusion_matrix": [
+            [
+              59,
+              77
+            ],
+            [
+              3,
+              37
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Nonfall": {
+              "precision": 0.9516129032258065,
+              "recall": 0.4338235294117647,
+              "f1-score": 0.5959595959595959,
+              "support": 136.0
+            },
+            "Fall": {
+              "precision": 0.32456140350877194,
+              "recall": 0.925,
+              "f1-score": 0.4805194805194805,
+              "support": 40.0
+            },
+            "accuracy": 0.5454545454545454,
+            "macro avg": {
+              "precision": 0.6380871533672892,
+              "recall": 0.6794117647058824,
+              "f1-score": 0.5382395382395382,
+              "support": 176.0
+            },
+            "weighted avg": {
+              "precision": 0.8091011987446624,
+              "recall": 0.5454545454545454,
+              "f1-score": 0.5697232060868423,
+              "support": 176.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9516    0.4338    0.5960       136\n        Fall     0.3246    0.9250    0.4805        40\n\n    accuracy                         0.5455       176\n   macro avg     0.6381    0.6794    0.5382       176\nweighted avg     0.8091    0.5455    0.5697       176\n",
+          "test_cross_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ]
+        },
+        {
+          "model_name": "wavemamba_default",
+          "seed": 777,
+          "params_M_total": 0.196738,
+          "params_M_trainable": 0.196738,
+          "best_epoch": 53,
+          "best_val_macro_f1": 0.9793471643328806,
+          "best_checkpoint_path": "./outputs_model_compare_ourdata_1/checkpoints/wavemamba_default_seed777_best_raw.pth",
+          "eval_checkpoint_type": "raw_best",
+          "use_ema": 0.0,
+          "ema_decay": null,
+          "test_cross_env_accuracy": 0.4375,
+          "test_cross_env_macro_f1": 0.4374818401937046,
+          "test_cross_env_fall_recall": 0.975,
+          "test_cross_env_nonfall_recall": 0.27941176470588236,
+          "test_cross_env_confusion_matrix": [
+            [
+              38,
+              98
+            ],
+            [
+              1,
+              39
+            ]
+          ],
+          "test_cross_env_report_structured": {
+            "Nonfall": {
+              "precision": 0.9743589743589743,
+              "recall": 0.27941176470588236,
+              "f1-score": 0.4342857142857143,
+              "support": 136.0
+            },
+            "Fall": {
+              "precision": 0.2846715328467153,
+              "recall": 0.975,
+              "f1-score": 0.4406779661016949,
+              "support": 40.0
+            },
+            "accuracy": 0.4375,
+            "macro avg": {
+              "precision": 0.6295152536028448,
+              "recall": 0.6272058823529412,
+              "f1-score": 0.4374818401937046,
+              "support": 176.0
+            },
+            "weighted avg": {
+              "precision": 0.8176118285607337,
+              "recall": 0.4375,
+              "f1-score": 0.43573849878934623,
+              "support": 176.0
+            }
+          },
+          "test_cross_env_report_text": "              precision    recall  f1-score   support\n\n     Nonfall     0.9744    0.2794    0.4343       136\n        Fall     0.2847    0.9750    0.4407        40\n\n    accuracy                         0.4375       176\n   macro avg     0.6295    0.6272    0.4375       176\nweighted avg     0.8176    0.4375    0.4357       176\n",
+          "test_cross_env_labels_order": [
+            "Nonfall",
+            "Fall"
+          ]
+        }
+      ],
+      "aggregate": {
+        "seed_mean": 1274.6,
+        "seed_std": 1280.7670514187973,
+        "params_M_total_mean": 0.196738,
+        "params_M_total_std": 0.0,
+        "params_M_trainable_mean": 0.196738,
+        "params_M_trainable_std": 0.0,
+        "best_epoch_mean": 88.4,
+        "best_epoch_std": 22.826300620118012,
+        "best_val_macro_f1_mean": 0.9848557315291906,
+        "best_val_macro_f1_std": 0.010967490176261188,
+        "use_ema_mean": 0.0,
+        "use_ema_std": 0.0,
+        "test_cross_env_accuracy_mean": 0.5943181818181819,
+        "test_cross_env_accuracy_std": 0.14421524603897692,
+        "test_cross_env_macro_f1_mean": 0.5765811352253569,
+        "test_cross_env_macro_f1_std": 0.12529922304825167,
+        "test_cross_env_fall_recall_mean": 0.905,
+        "test_cross_env_fall_recall_std": 0.06204836822995426,
+        "test_cross_env_nonfall_recall_mean": 0.5029411764705882,
+        "test_cross_env_nonfall_recall_std": 0.2041735810801012
+      }
+    }
+  },
+  "ranking_by_test_cross_env_macro_f1": [
+    "wavemamba_default"
+  ]
+}
