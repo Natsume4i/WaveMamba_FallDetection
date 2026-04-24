@@ -1,0 +1,32 @@
+{
+    "binary_mapping": {
+        "label_to_idx": {
+            "Nonfall": 0,
+            "Fall": 1
+        },
+        "idx_to_label": {
+            "0": "Nonfall",
+            "1": "Fall"
+        }
+    },
+    "multiclass_mapping": {
+        "label_to_idx": {
+            "fall": 0,
+            "sit": 1,
+            "walk": 2,
+            "sleep": 3,
+            "pick": 4,
+            "tie_shoelace": 5,
+            "use_phone": 6
+        },
+        "idx_to_label": {
+            "0": "fall",
+            "1": "sit",
+            "2": "walk",
+            "3": "sleep",
+            "4": "pick",
+            "5": "tie_shoelace",
+            "6": "use_phone"
+        }
+    }
+}

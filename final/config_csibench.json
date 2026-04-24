@@ -1,0 +1,103 @@
+{
+  "dataset": {
+    "name": "csibench",
+    "task_type": "binary",
+    "task_name": "FallDetection",
+    "data_root": "/mnt/F/natsume/csibench_data/datasets/guozhenjennzhu/csi-bench/versions/8/csi-bench-dataset/csi-bench-dataset",
+    "meta_root": null,
+    "train_split": "train_id_new.json",
+    "val_split": "val_id_new.json",
+    "test_id_split": "test_id_new.json",
+    "test_cross_env_split": "test_cross_env_e24.json",
+    "eval_mode": "cross_env",
+    "target_len": 500,
+    "target_freq": 232,
+    "report_splits": [
+      "val",
+      "test_cross_env"
+    ]
+  },
+  "training": {
+    "batch_size": 32,
+    "epochs": 120,
+    "lr": 0.001,
+    "warmup_epochs": 5,
+    "weight_decay": 0.01,
+    "num_workers": 0,
+    "seeds": [
+      42,
+      123,
+      777,
+      2026,
+      3407
+    ],
+    "use_ema": true,
+    "ema_decay": 0.999
+  },
+  "checkpoint": {
+    "checkpoint_policy": "valbest_ema",
+    "select_metric": "val_macro_f1",
+    "use_ema_for_eval": true,
+    "save_topk": 1,
+    "average_topk": false,
+    "bn_recalibration": false
+  },
+  "models": {
+    "models_main": [
+      "dualmcn_default",
+      "resnet18",
+      "lstm",
+      "gru",
+      "tcn",
+      "vim"
+    ],
+    "models_ablation": [
+      "dualmcn_main_only"
+    ]
+  },
+  "experiments": {
+    "compare_noaug": {
+      "enabled": false,
+      "use_augmentation": false,
+      "models": [
+        "dualmcn_default",
+        "resnet18",
+        "lstm",
+        "gru",
+        "tcn",
+        "vim"
+      ]
+    },
+    "compare_aug": {
+      "enabled": false,
+      "use_augmentation": true,
+      "models": [
+        "dualmcn_default",
+        "resnet18",
+        "lstm",
+        "gru",
+        "tcn",
+        "vim"
+      ]
+    },
+    "ablation_aug": {
+      "enabled": true,
+      "use_augmentation": true,
+      "models": [
+        "dualmcn_main_only"
+      ]
+    }
+  },
+  "output": {
+    "output_root": "./outputs_csibench_2",
+    "save_json": true,
+    "save_csv": true,
+    "save_md": true,
+    "save_per_seed_results": true,
+    "split_subdirs_by_experiment": true
+  },
+  "notes": {
+    "protocol": "CSI-Bench uses val-best EMA checkpoint for final evaluation.",
+    "vim_note": "Vim is kept in models_main by default; remove manually if the current environment cannot run Vim."
+  }
+}

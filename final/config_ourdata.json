@@ -1,0 +1,105 @@
+{
+  "dataset": {
+    "name": "ourdata",
+    "task_type": "binary",
+    "data_root": "/mnt/F/tao/跌倒检测/new_data_processed_9to3",
+    "meta_root": "./meta_and_split",
+    "mapping_file": "label_mapping.json",
+    "train_split": "train_id.json",
+    "val_split": "val_id.json",
+    "test_cross_env_split": "test_cross_env.json",
+    "eval_mode": "cross_env",
+    "target_len": 1200,
+    "target_subcarrier": 114,
+    "input_h": 1200,
+    "input_w": 1026,
+    "report_splits": [
+      "val",
+      "test_cross_env"
+    ]
+  },
+  "training": {
+    "batch_size": 16,
+    "epochs": 100,
+    "lr": 0.0002,
+    "warmup_epochs": 5,
+    "weight_decay": 0.01,
+    "num_workers": 0,
+    "seeds": [
+      42,
+      123,
+      777,
+      2026,
+      3407
+    ],
+    "use_ema": false,
+    "ema_decay": 0.999
+  },
+  "checkpoint": {
+    "checkpoint_policy": "top5avg_bnrecal",
+    "select_metric": "val_macro_f1",
+    "use_ema_for_eval": false,
+    "save_topk": 5,
+    "average_topk": true,
+    "bn_recalibration": true
+  },
+  "models": {
+    "models_main": [
+      "dualmcn_default",
+      "resnet18",
+      "lstm",
+      "gru",
+      "tcn",
+      "vim"
+    ],
+    "models_ablation": [
+      "dualmcn_main_only"
+    ]
+  },
+  "experiments": {
+    "compare_noaug": {
+      "enabled": false,
+      "use_augmentation": false,
+      "models": [
+        "dualmcn_default",
+        "resnet18",
+        "lstm",
+        "gru",
+        "tcn",
+        "vim"
+      ]
+    },
+    "compare_aug": {
+      "enabled": false,
+      "use_augmentation": true,
+      "models": [
+        "dualmcn_default",
+        "resnet18",
+        "lstm",
+        "gru",
+        "tcn",
+        "vim"
+      ]
+    },
+    "ablation_aug": {
+      "enabled": true,
+      "use_augmentation": true,
+      "models": [
+        "dualmcn_main_only"
+      ]
+    }
+  },
+  "output": {
+    "output_root": "./outputs_ourdata_2",
+    "save_json": true,
+    "save_csv": true,
+    "save_md": true,
+    "save_per_seed_results": true,
+    "split_subdirs_by_experiment": true
+  },
+  "notes": {
+    "protocol": "ourdata uses top-5 val-best checkpoint averaging with BN recalibration for final evaluation.",
+    "ema_note": "use_ema is kept for interface consistency, but the default setting here is false.",
+    "vim_note": "Vim is kept in models_main by default; remove manually if the current environment cannot run Vim."
+  }
+}

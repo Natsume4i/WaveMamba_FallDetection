@@ -1,0 +1,109 @@
+{
+  "dataset": {
+    "name": "enetfall",
+    "task_type": "binary",
+    "data_root": "/mnt/F/natsume/enetfall/data",
+    "train_envs": [
+      "dataset_meeting_room.mat",
+      "dataset_home_lab(L).mat",
+      "dataset_home_lab(R).mat"
+    ],
+    "test_envs": {
+      "living_room": "dataset_living_room.mat",
+      "lecture_room": "dataset_lecture_room.mat"
+    },
+    "val_ratio": 0.2,
+    "eval_mode": "cross_env",
+    "input_h": 625,
+    "input_w": 90,
+    "report_splits": [
+      "val",
+      "test_living_room",
+      "test_lecture_room"
+    ]
+  },
+  "training": {
+    "batch_size": 32,
+    "epochs": 120,
+    "lr": 0.001,
+    "warmup_epochs": 5,
+    "weight_decay": 0.01,
+    "num_workers": 0,
+    "seeds": [
+      42,
+      123,
+      777,
+      2026,
+      3407
+    ],
+    "use_ema": false,
+    "ema_decay": 0.999
+  },
+  "checkpoint": {
+    "checkpoint_policy": "valbest_raw",
+    "select_metric": "val_macro_f1",
+    "use_ema_for_eval": false,
+    "save_topk": 1,
+    "average_topk": false,
+    "bn_recalibration": false
+  },
+  "models": {
+    "models_main": [
+      "dualmcn_default",
+      "resnet18",
+      "lstm",
+      "gru",
+      "tcn",
+      "vim"
+    ],
+    "models_ablation": [
+      "dualmcn_main_only"
+    ]
+  },
+  "experiments": {
+    "compare_noaug": {
+      "enabled": false,
+      "use_augmentation": false,
+      "models": [
+        "dualmcn_default",
+        "resnet18",
+        "lstm",
+        "gru",
+        "tcn",
+        "vim"
+      ]
+    },
+    "compare_aug": {
+      "enabled": false,
+      "use_augmentation": true,
+      "models": [
+        "dualmcn_default",
+        "resnet18",
+        "lstm",
+        "gru",
+        "tcn",
+        "vim"
+      ]
+    },
+    "ablation_aug": {
+      "enabled": true,
+      "use_augmentation": true,
+      "models": [
+        "dualmcn_main_only"
+      ]
+    }
+  },
+  "output": {
+    "output_root": "./outputs_enetfall_2",
+    "save_json": true,
+    "save_csv": true,
+    "save_md": true,
+    "save_per_seed_results": true,
+    "split_subdirs_by_experiment": true
+  },
+  "notes": {
+    "protocol": "ENetFall uses raw val-best checkpoint for final evaluation.",
+    "split_note": "Validation split is rebuilt per seed using stratified split within each training environment, following the original run logic.",
+    "vim_note": "Vim is kept in models_main by default; remove manually if the current environment cannot run Vim."
+  }
+}
